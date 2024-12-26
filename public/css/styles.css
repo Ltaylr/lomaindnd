@@ -1,0 +1,40 @@
+html{
+    background-color: #231e28;
+    text-align: center;
+}
+h1{
+    color: aqua;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+.main-header__nav{
+    display: flex;
+    justify-content: center;
+    background-color: ;
+}
+.main-header__item-list{
+    align-content: center;
+    margin:auto;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border:1px, solid, #531616;
+    
+}
+.main-header__item{
+    float: left;
+}
+
+.nav-link {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    display: block;
+    color: rgb(102, 255, 0);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;  
+    border: 1px, solid, aqua;  
+}
+
+.nav-link:hover{
+    background-color: #111;
+}
