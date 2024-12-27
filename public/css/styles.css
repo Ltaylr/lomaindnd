@@ -16,6 +16,10 @@ li{
     list-style:none;
     color:aquamarine;
 }
+a{
+    color: aquamarine;
+    text-decoration: none;
+}
 .main-header__item-list{
     align-content: center;
     margin:auto;

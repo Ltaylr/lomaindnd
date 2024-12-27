@@ -11,7 +11,7 @@
             <% if (characters.length > 0) { %>
                 <% for (let character of characters) { %>
                 <li>
-                    <a class="char" href=""><%= character %></a>
+                    <a class="char" href="/characters/<%= level %>/<%= character %>"><%= character %></a>
                 </li>
                 <% } %>
             <% } %>
