@@ -2,14 +2,15 @@ html{
     background-color: #231e28;
     text-align: center;
 }
-h1{
+h1,p{
     color: aqua;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
 .main-header__nav{
     display: flex;
     justify-content: center;
-    background-color: ;
+    
 }
 .main-header__item-list{
     align-content: center;
