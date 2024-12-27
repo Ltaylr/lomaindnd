@@ -25,9 +25,6 @@ app.get('/about', (req, res, next) => {
     res.render('about', {docTitle: 'About'});
 });
 
-
-
-
 const PORT = 8080;
 
 app.listen(PORT, '127.0.0.1', () => {
