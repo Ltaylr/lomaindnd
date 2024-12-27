@@ -12,6 +12,10 @@ h1,p{
     justify-content: center;
     
 }
+li{
+    list-style:none;
+    color:aquamarine;
+}
 .main-header__item-list{
     align-content: center;
     margin:auto;

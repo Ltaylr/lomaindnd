@@ -8,10 +8,10 @@
     <main>
         <h1>Pregen Characters</h1>
         <ul>
-            <% if (levels.length > 0) { %>
-                <% for (let level of levels) { %>
+            <% if (characters.length > 0) { %>
+                <% for (let character of characters) { %>
                 <li>
-                    <a class="char_level" href="/characters/<%= level %>"><%= level %></a>
+                    <a class="char" href=""><%= character %></a>
                 </li>
                 <% } %>
             <% } %>

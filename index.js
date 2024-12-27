@@ -1,17 +1,34 @@
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(express.static(__dirname + '/public'));
+
+let characters = [];
+
+const levelFolders = fs.readdirSync('./files/characters');
+
+
+
 app.get("/", (req, res, next) => {
     res.render('index', { docTitle: 'Lo Main Dnd'});
 })
 
 app.get('/characters', (req, res, next) => {
-    res.render('characters', {docTitle: 'Characters'});
+    res.render('characters', {docTitle: 'Characters', levels: levelFolders});
 });
+
+app.get('/characters/:level', (req, res, next) =>{
+    const level = req.params.level;
+    fs.readdir(path.join('./files/characters', level),(err, chars) =>{
+        res.render('levels', {docTitle: level, characters: chars});
+    });
+
+    
+})
 
 app.get('/campaign', (req, res, next) => {
     res.render('campaign', {docTitle: 'Campaign'});
