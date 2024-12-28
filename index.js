@@ -12,14 +12,15 @@ app.use(express.static(__dirname + '/public'));
 
 let characters = [];
 
-const levelFolders = fs.readdirSync(path.join(__dirname, 'files', 'characters'));
+
 app.use(express.static(path.join(__dirname, 'files', 'characters')));
-//console.log(levelFolders);
+
 app.get("/", (req, res, next) => {
     res.render('index', { docTitle: 'Lo Main Dnd'});
 })
 
 app.get('/characters', (req, res, next) => {
+    const levelFolders = fs.readdirSync(path.join(__dirname, 'files', 'characters'));
     res.render('characters', {docTitle: 'Characters', levels: levelFolders});
 });
 
@@ -46,13 +47,20 @@ app.get('/campaign', (req, res, next) => {
     res.render('campaign', {docTitle: 'Campaign'});
 });
 
-app.get('/schedule', (req, res, next) => {
-    res.render('schedule', {docTitle: 'Schedule'});
-});
+//app.get('/schedule', (req, res, next) => {
+//    res.render('schedule', {docTitle: 'Schedule'});
+//});
 
-app.get('/about', (req, res, next) => {
-    res.render('about', {docTitle: 'About'});
-});
+//app.get('/about', (req, res, next) => {
+//    res.render('about', {docTitle: 'About'});
+//});
+
+app.use((req, res, next) => {
+    res.status(500).render('500', {
+      docTitle: 'Page Not Found',
+      path: '/500'
+    });
+  })
 
 const PORT = 8080;
 

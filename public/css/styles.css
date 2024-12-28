@@ -6,7 +6,10 @@ h1,p{
     color: aqua;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
-
+h2{
+    color: aqua;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
 .main-header__nav{
     display: flex;
     justify-content: center;
