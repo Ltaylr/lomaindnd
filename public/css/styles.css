@@ -15,9 +15,20 @@ h2{
     justify-content: center;
     
 }
-li{
+.level_ul{
+    display: flex;
+    justify-content: center;
+    
+}
+.level-link-li{
     list-style:none;
     color:aquamarine;
+    margin: 5px 5px 5px 5px;
+}
+.char_li{
+    list-style:none;
+    color:aquamarine;
+    margin: 5px 5px 5px 5px;
 }
 a{
     color: aquamarine;
