@@ -21,9 +21,14 @@ h2{
     
 }
 .level-link-li{
+    font-family:Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 30px;
     list-style:none;
-    color:aquamarine;
+    color:rgb(251, 127, 255);
     margin: 5px 5px 5px 5px;
+}
+.char_level{
+    color:rgb(127, 255, 161);
 }
 .char_li{
     list-style:none;

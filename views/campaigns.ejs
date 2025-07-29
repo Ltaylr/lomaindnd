@@ -7,5 +7,14 @@
 
     <main>
         <h1>Campaigns</h1>
+        <ul class="level_ul">
+            <% if (levels.length > 0) { %>
+                <% for (let campaign of campaigns) { %>
+                <li class="campaign-link-li">
+                    <a class="char_level" href="/campaign/<%= campaign %>"><%= level %></a>
+                </li>
+                <% } %>
+            <% } %>
+        </ul>
     </main>
 <%- include('./include/end.ejs') %>
