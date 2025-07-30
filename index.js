@@ -1,11 +1,40 @@
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const session = require('express-session');
 const app = express();
 const helmet = require('helmet');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const multer = require('multer');
+var randomstring = require("randomstring");
+
+const MONGODB_URI =
+  'localhost:27017';
+
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: 'lomaindnd-db'
+});
+
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, randomstring.generate(8) + '_'  + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if(file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'application/pdf'){
+    cb(null, true);
+  }
+  cb(null, false);
+}
 
 app.use(helmet());//set standard security http headers
-
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(express.static(__dirname + '/public'));
@@ -20,6 +49,18 @@ app.use(homeRoutes);
 app.use(charRoutes);
 app.use(campaignRoutes);
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image')); //named image because file picker is named image
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use(
+  session({
+    secret: [';hvpe9gp92h4wef;sdnv'],
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
 app.use((req, res, next) => {
     res.status(500).render('500', {
       docTitle: 'Page Not Found',
