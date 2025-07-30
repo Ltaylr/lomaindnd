@@ -11,7 +11,7 @@ const multer = require('multer');
 var randomstring = require("randomstring");
 
 const MONGODB_URI =
-  'localhost:27017';
+  'mongodb://localhost:27017';
 
 const store = new MongoDBStore({
   uri: MONGODB_URI,
@@ -53,6 +53,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image')); //named image because file picker is named image
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/files', express.static(path.join(__dirname, 'files')))
 app.use(
   session({
     secret: [';hvpe9gp92h4wef;sdnv'],

@@ -10,7 +10,7 @@ const characterSchema = new Schema(
         },
         imageUrl:{
             type: String,
-            required: true
+            required: false
         },
         description: {
             type: String,
