@@ -1,7 +1,6 @@
-const User = require('../models/user');
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
-const user = require('../models/user');
 const crypto = require('crypto');
 const { validationResult } = require('express-validator');
 

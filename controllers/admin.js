@@ -1,6 +1,7 @@
-const campaign = require('../models/campaign');
+const campaign = require('../models/CampaignModel');
 const { validationResult } = require('express-validator');
-exports.getAddcampaign = (req, res, next) => {
+
+exports.getAddCampaign = (req, res, next) => {
   
   res.render('admin/edit-campaign', {
     pageTitle: 'Add campaign',
@@ -101,7 +102,7 @@ exports.getEditCampaign = (req, res, next) => {
     });
 };
 
-exports.postEditcampaign = (req, res, next) => {
+exports.postEditCampaign = (req, res, next) => {
   const campaignId = req.body.campaignId;
   const updatedTitle = req.body.title;
   const updatedImage = req.file;

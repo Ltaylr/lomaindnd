@@ -11,14 +11,14 @@ const router = express.Router();
 const {body} = require('express-validator');
 
 // /admin/add-campaign => GET
-router.get('/add-campaign', isAuth, adminController.getAddCampaign);
+router.get('/edit-campaign', isAuth, adminController.getAddCampaign);
 
 // /admin/campaigns => GET
 router.get('/campaigns', isAuth, adminController.getCampaigns);
 
 // /admin/add-campaign => POST
 router.post(
-    '/add-campaign',
+    '/edit-campaign',
     [
       body('title')
         .isString()
@@ -31,6 +31,7 @@ router.post(
     isAuth,
     adminController.postAddCampaign
   );
+  
 router.post(
     '/add-character',
     [
@@ -45,6 +46,7 @@ router.post(
     isAuth,
     adminController.postAddCampaign
   );
+
 router.get('/edit-campaign/:campaignId', isAuth, adminController.getEditCampaign);
 
 router.post(

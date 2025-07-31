@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const campaignController = require('../controllers/CampaignController');
 
-router.get('/campaigns', (req, res, next) => {
-    res.render('campaigns', {docTitle: 'Campaigns'});
-});
+
+router.get('/campaigns', campaignController.getCampaigns);
+
 
 module.exports = router;
