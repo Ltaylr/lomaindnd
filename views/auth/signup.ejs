@@ -1,16 +1,16 @@
-<%- include('../includes/head.ejs') %>
+<%- include('../include/head.ejs') %>
     <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/auth.css">
 </head>
 
 <body>
-   <%- include('../includes/navigation.ejs') %>
+   <%- include('../include/nav.ejs') %>
 
     <main>
         <% if(errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
-        <form class="login-form" action="/signup" method="POST">
+        <form class="login-form" action="/auth/signup" method="POST">
             <div class="form-control">
                 <label for="email">E-Mail</label>
                 <input class="<%= validationErrors.find(e => e.path === 'email') ? 'invalid' : '' %>" 
@@ -28,4 +28,4 @@
             <button class="btn" type="submit">Signup</button>
         </form>
     </main>
-<%- include('../includes/end.ejs') %>
+<%- include('../include/end.ejs') %>

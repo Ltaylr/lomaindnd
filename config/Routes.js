@@ -8,6 +8,6 @@ module.exports = function (app){
     app.use(homeRoutes);
     app.use(charRoutes);
     app.use(campaignRoutes);
-    //app.use('/admin', adminRoutes);
-    //app.use('/auth',authRoutes);
+    app.use('/admin', adminRoutes);
+    app.use('/auth',authRoutes);
 }

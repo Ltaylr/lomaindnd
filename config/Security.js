@@ -18,6 +18,7 @@ module.exports = function(app, secret) {
     app.use(doubleCsrfProtection);
     app.use((req, res, next) => {
       res.locals.csrfToken = generateCsrfToken(req, res);
+      res.header('x-csfr-token', res.locals.csrfToken);
       next();
     });
 

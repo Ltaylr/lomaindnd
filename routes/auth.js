@@ -46,8 +46,8 @@ router.post('/signup', [
         });
     })
     .normalizeEmail(),
-    body('password', 'please enter a password with atleast 6 characters and letters and numbers only')
-    .isLength({min: 6})
+    body('password', 'please enter a password with atleast 13 characters')
+    .isLength({min: 13})
     .isAlphanumeric()
     .trim(),
     body('confirmPassword')

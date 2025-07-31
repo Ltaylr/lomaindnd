@@ -26,7 +26,7 @@ exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
 
     path: '/login',
-    pageTitle: 'Login',
+    docTitle: 'Login',
     isAuthenticated: false,
     errorMessage: errorMsg,
     csrfToken: req.csrfToken(),
@@ -44,9 +44,12 @@ exports.getSignup = (req, res, next) => {
     else{
       errorMsg = null;
     }
+  
+  
   res.render('auth/signup',{
+    
     path:'signup',
-    pageTitle: 'Signup',
+    docTitle: 'Signup',
     isAuthenticated: false,
     csrfToken: req.csrfToken(),
     errorMessage: errorMsg,
@@ -65,7 +68,7 @@ exports.postLogin = (req, res, next) => {
     console.log(errors.array());
     return res.status(422).render('auth/login',{
       path:'login',
-      pageTitle: 'Login',
+      docTitle: 'Login',
       isAuthenticated: false,
       csrfToken: req.csrfToken(),
       errorMessage: errors.array()[0].msg,
@@ -119,7 +122,7 @@ exports.getReset = (req, res, next) =>
     }
   res.render('auth/reset', {
     path: '/reset',
-    pageTitle: 'Reset Password',
+    docTitle: 'Reset Password',
     isAuthenticated: false,
     errorMessage: errorMsg,
     csrfToken: req.csrfToken()
@@ -143,7 +146,7 @@ exports.getResetWithToken = (req, res, next) =>
     const resetToken = req.params.resetToken;
     res.render('auth/resetPassword', {
       path: '/resetPassword',
-      pageTitle: 'Reset Password',
+      docTitle: 'Reset Password',
       isAuthenticated: false,
       errorMessage: errorMsg,
       csrfToken: req.csrfToken(),
@@ -268,7 +271,7 @@ exports.postSignup = (req, res, next) => {
     console.log(errors.array());
     return res.status(422).render('auth/signup',{
       path:'signup',
-      pageTitle: 'Signup',
+      docTitle: 'Signup',
       isAuthenticated: false,
       csrfToken: req.csrfToken(),
       errorMessage: errors.array()[0].msg,
