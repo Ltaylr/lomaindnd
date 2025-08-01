@@ -35,14 +35,18 @@ router.post('/login',
 
 router.post('/signup', [
     body('password', 'please enter a password with atleast 10 characters')
-    .isLength({min: 10})
+    .isLength({min: 10}),
+    body('password', 'must be alphanumeric')
     .isAlphanumeric()
     .trim(),
-    check('confirmPassword')
+    body('confirmPassword')
     .custom((value, {req}) => {
         if(value !== req.body.password)
         {
-            throw new Error('Passwords have to match')
+            return Promise.reject('Passwords have to match');
+        }
+        else{
+            return true;
         }
     })
     .trim(),
