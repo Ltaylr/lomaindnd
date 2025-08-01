@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const secrets = [';hvpe9gp92h4wef;sdnv'];
+const secrets = ['mcnvhf5768kg;hvpe9gp92h4wef;sdnv'];
 const flash = require('connect-flash');
 const PORT = 8080;
 
@@ -25,6 +25,7 @@ app.use((req, res, next) => {
   })
  
  
+  
 try{
 
   app.listen(PORT);

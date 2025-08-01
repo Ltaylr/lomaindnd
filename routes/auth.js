@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { check, body } = require('express-validator');
+const { check, body  } = require('express-validator');
 
 const authController = require('../controllers/auth');
 
@@ -34,7 +34,19 @@ router.post('/login',
     authController.postLogin);
 
 router.post('/signup', [
-    check('email')
+    body('password', 'please enter a password with atleast 10 characters')
+    .isLength({min: 10})
+    .isAlphanumeric()
+    .trim(),
+    check('confirmPassword')
+    .custom((value, {req}) => {
+        if(value !== req.body.password)
+        {
+            throw new Error('Passwords have to match')
+        }
+    })
+    .trim(),
+    body('email')
     .isEmail()
     .withMessage('Please enter a valid email')
     .custom((value, {req}) => {
@@ -46,18 +58,7 @@ router.post('/signup', [
         });
     })
     .normalizeEmail(),
-    body('password', 'please enter a password with atleast 13 characters')
-    .isLength({min: 13})
-    .isAlphanumeric()
-    .trim(),
-    body('confirmPassword')
-    .custom((value, {req}) => {
-        if(value !== req.body.password)
-        {
-            throw new Error('Passwords have to match')
-        }
-    })
-    .trim()
+    
     ]
     ,authController.postSignup);
 
