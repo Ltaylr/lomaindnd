@@ -23,8 +23,8 @@ module.exports = function(app) {
     app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image')); //named image because file picker is named image
     app.use(express.static(path.join(__dirname, '../public')));
     app.use('/images', express.static(path.join(__dirname, 'images')));
-    app.use('/files', express.static(path.join(__dirname, 'files')))
+    app.use('/files', express.static(path.join(__dirname, '../files')))
     app.use(express.static(path.join(__dirname, 'files', 'characters')));
-    app.use(express.static(path.join(__dirname, 'files', 'images')));
+    
 
 }

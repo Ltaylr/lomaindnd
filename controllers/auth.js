@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const { validationResult } = require('express-validator');
 
+
 var transport = nodemailer.createTransport({
   host: "sandbox.smtp.mailtrap.io",
   port: 2525,
@@ -82,7 +83,7 @@ exports.postLogin = (req, res, next) => {
     
     if(!userDoc)
     {
-      req.flash('error', 'Invalid username or password');
+      req.flash('error', 'Incorrect Email/Password');
       return res.redirect('/auth/login');
     }
     bcrypt.compare(pass, userDoc.password)
@@ -96,7 +97,7 @@ exports.postLogin = (req, res, next) => {
           res.redirect('/');
         });
       }
-      req.flash('error', 'Invalid username or password');
+      req.flash('error', 'Incorrect Email/Password');
       res.redirect('/auth/login');
     })
     .catch(err => {
@@ -265,6 +266,7 @@ exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const pass = req.body.password;
   const confirmPass = req.body.confirmPassword;
+  const signupCode = req.body.signupCode;
   const errors = validationResult(req);
 
   if(!errors.isEmpty()){
@@ -279,6 +281,7 @@ exports.postSignup = (req, res, next) => {
       validationErrors: errors.array()
     });
   }
+  
   return bcrypt.hash(pass, 12)
     .then( hash => {
       const user = new User({
@@ -300,7 +303,7 @@ exports.postSignup = (req, res, next) => {
         
     })
     .then(result => {
-      res.redirect('/login');
+      res.redirect('/admin/campaigns');
     })
     .catch(err => {
       console.log(err);

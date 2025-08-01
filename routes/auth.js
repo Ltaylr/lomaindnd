@@ -8,6 +8,8 @@ const router = express.Router();
 
 const User = require('../models/User');
 
+const validateCode = require('../util/checkSignupCode');
+
 router.get('/login', authController.getLogin);
 
 router.get('/signup', authController.getSignup);
@@ -24,20 +26,29 @@ router.post('/login',
     [
         body('email')
         .isEmail()
-        .withMessage('Please enter a valid email')
-        .normalizeEmail(),
-        body('password', 'Please enter a valid password')
-        .isLength({min: 5})
-        .isAlphanumeric()
-        .trim()
+        .custom((value, {req}) => {
+        return User.findOne({email: value}).then(user => {
+            if(user)
+            {
+                return true;
+            }
+            return Promise.reject('Incorrect Email/Password');
+        })})
+        
     ],
     authController.postLogin);
 
 router.post('/signup', [
+    body('signupCode')
+    .custom((value)=>{
+        if(validateCode(value)) return true;
+        return Promise.reject('Please enter a valid code');
+       
+    }),
     body('password', 'please enter a password with atleast 10 characters')
     .isLength({min: 10}),
     body('password', 'must be alphanumeric')
-    .isAlphanumeric()
+    .isStrongPassword({minLength: 10})
     .trim(),
     body('confirmPassword')
     .custom((value, {req}) => {

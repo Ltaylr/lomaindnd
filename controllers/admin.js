@@ -156,6 +156,7 @@ exports.postEditCampaign = (req, res, next) => {
 };
 
 exports.getCampaigns = (req, res, next) => {
+  console.log(req.session.user._id);
   Campaign.find({userId: req.session.user._id})
     // .select('title price -_id')
     // .populate('userId', 'name')

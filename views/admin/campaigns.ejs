@@ -1,5 +1,5 @@
 <%- include('../include/head.ejs') %>
-    <!-- <link rel="stylesheet" href="/css/campaign.css"> -->
+     <link rel="stylesheet" href="/css/campaign.css">
 </head>
 
 <body>
@@ -7,7 +7,7 @@
 
     <main>
         <h1>Campaigns</h1>
-        <ul class="campaign_ul">
+        <ul class="grid">
             <% if (campaigns.length > 0) { %>
                 <% for (let campaign of campaigns) { %>
                 <article class="card campaign-item">
