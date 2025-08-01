@@ -6,7 +6,7 @@ const express = require('express');
 module.exports = function(app) {
     const fileStorage = multer.diskStorage({
       destination: (req, file, cb) => {
-        cb(null, 'images');
+        cb(null, 'files/images');
       },
       filename: (req, file, cb) => {
         cb(null, randomstring.generate(8) + '_'  + file.originalname);
@@ -19,11 +19,12 @@ module.exports = function(app) {
       }
       cb(null, false);
     }
-    app.use(express.static(__dirname + '../public'));
+    
     app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image')); //named image because file picker is named image
     app.use(express.static(path.join(__dirname, '../public')));
     app.use('/images', express.static(path.join(__dirname, 'images')));
     app.use('/files', express.static(path.join(__dirname, 'files')))
     app.use(express.static(path.join(__dirname, 'files', 'characters')));
+    app.use(express.static(path.join(__dirname, 'files', 'images')));
 
 }

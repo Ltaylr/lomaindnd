@@ -1,10 +1,10 @@
-const campaign = require('../models/CampaignModel');
+const Campaign = require('../models/CampaignModel');
 const { validationResult } = require('express-validator');
 
 exports.getAddCampaign = (req, res, next) => {
   
   res.render('admin/edit-campaign', {
-    pageTitle: 'Add campaign',
+    docTitle: 'Add campaign',
     path: '/admin/add-campaign',
     editing: false,
     csrfToken: req.csrfToken(),
@@ -22,7 +22,7 @@ exports.postAddCampaign = (req, res, next) => {
   const errors = validationResult(req);
   if (!image){
     return res.status(422).render('admin/edit-campaign', {
-      pageTitle: 'Add Campaign',
+      docTitle: 'Add Campaign',
       path: '/admin/add-campaign',
       editing: false,
       hasError: true,
@@ -39,7 +39,7 @@ exports.postAddCampaign = (req, res, next) => {
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return res.status(422).render('admin/edit-campaign', {
-      pageTitle: 'Add campaign',
+      docTitle: 'Add campaign',
       path: '/admin/add-campaign',
       editing: false,
       hasError: true,
@@ -54,10 +54,11 @@ exports.postAddCampaign = (req, res, next) => {
     });
   }
 
-  const campaign = new campaign({
+  const campaign = new Campaign({
     title: title,
     description: description,
-    imageURL: imageUrl,
+    imageUrl: imageUrl,
+    userId: req.session.user
   });
   campaign
     .save()
@@ -85,7 +86,7 @@ exports.getEditCampaign = (req, res, next) => {
         return res.redirect('/');
       }
       res.render('admin/edit-campaign', {
-        pageTitle: 'Edit campaign',
+        docTitle: 'Edit campaign',
         path: '/admin/edit-campaign',
         editing: editMode,
         campaign: campaign,
@@ -112,7 +113,7 @@ exports.postEditCampaign = (req, res, next) => {
 
   if (!errors.isEmpty()) {
     return res.status(422).render('admin/edit-campaign', {
-      pageTitle: 'Edit campaign',
+      docTitle: 'Edit campaign',
       path: '/admin/edit-campaign',
       editing: true,
       hasError: true,
@@ -155,14 +156,14 @@ exports.postEditCampaign = (req, res, next) => {
 };
 
 exports.getCampaigns = (req, res, next) => {
-  campaign.find({userId: req.user._id})
+  Campaign.find({userId: req.session.user._id})
     // .select('title price -_id')
     // .populate('userId', 'name')
     .then(campaigns => {
       console.log(campaigns);
       res.render('admin/campaigns', {
-        prods: campaigns,
-        pageTitle: 'Admin campaigns',
+        campaigns: campaigns,
+        docTitle: 'Admin campaigns',
         path: '/admin/campaigns',
         csrfToken: req.csrfToken(),
         isAuthenticated: req.session.isLoggedIn

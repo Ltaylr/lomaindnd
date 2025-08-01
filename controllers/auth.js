@@ -83,7 +83,7 @@ exports.postLogin = (req, res, next) => {
     if(!userDoc)
     {
       req.flash('error', 'Invalid username or password');
-      return res.redirect('/login');
+      return res.redirect('/auth/login');
     }
     bcrypt.compare(pass, userDoc.password)
     .then(doMatch => {
@@ -97,7 +97,7 @@ exports.postLogin = (req, res, next) => {
         });
       }
       req.flash('error', 'Invalid username or password');
-      res.redirect('/login');
+      res.redirect('/auth/login');
     })
     .catch(err => {
       console.log(err);
