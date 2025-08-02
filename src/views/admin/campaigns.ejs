@@ -1,0 +1,38 @@
+<%- include('../include/head.ejs') %>
+     <link rel="stylesheet" href="/css/campaign.css">
+</head>
+
+<body>
+    <%- include('../include/nav.ejs') %>
+
+    <main>
+        <h1>Campaigns</h1>
+        <ul class="grid">
+            <% if (campaigns.length > 0) { %>
+                <% for (let campaign of campaigns) { %>
+                <article class="card campaign-item">
+                                <header class="card__header">
+                                    <h1 class="campaign__title">
+                                        <%= campaign.title %>
+                                    </h1>
+                                </header>
+                                <div class="card__image">
+                                    <img src="/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
+                                </div>
+                                <div class="card__content">
+                                    <p class="campaign__description">
+                                        <%= campaign.description %>
+                                    </p>
+                                </div>
+                                <div class="card__actions">
+                                    <a href="/admin/edit-campaign/<%= campaign._id %>?edit=true" class="btn">Edit</a>
+                                    <input type="hidden" value="<%= campaign._id %>" name="campaignId">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button class="btn" type="btn" onClick="deletecampaign(this)">Delete</button>
+                                </div>
+                            </article>
+                <% } %>
+            <% } %>
+        </ul>
+    </main>
+<%- include('../include/end.ejs') %>

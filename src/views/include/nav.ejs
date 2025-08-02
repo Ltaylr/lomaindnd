@@ -1,0 +1,31 @@
+<header class="main-header">
+    <h1>Lo Main Dnd!</h1>
+<nav class="main-header__nav">
+    
+    <ul class="main-header__item-list">
+        <li class="main-header__item">
+            <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="main-header__item">
+            <a class="nav-link" href="/campaigns">Campaigns</a>
+        </li>
+        <li class="main-header__item">
+            <a class="nav-link" href="/characters">Characters</a>
+        </li>
+        <!-- <li class="main-header__item">
+            <a class="nav-link" href="/about">About</a>
+        </li> -->
+        <!-- <li class="main-header__item">
+            <a class="nav-link" href="/schedule">Schedule</a>
+        </li> -->
+        <% if ( typeof isAuthenticated != 'undefined' && isAuthenticated) { %>
+            <li class="main-header__item nav-link ">
+                <form class="nav-link logout"action="/logout" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        <% } %>
+    </ul>
+</nav>
+</header>
