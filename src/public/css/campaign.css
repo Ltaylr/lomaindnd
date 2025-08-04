@@ -26,20 +26,41 @@
     text-align: center;
 }
 
+.campaign__image{
+    margin-top: 30px;
+    width: 600px; height: 674px; object-fit: cover;
+    border-radius: 12px;
+}
+
 .grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   align-items: stretch;
 }
 
 .card {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  position: relative;
+  min-width: 360px;
+  box-shadow: 
+  2px 0px 20px 10px rgba(153, 76, 76, 0.26),
+  2px 0px 20px 10px rgba(153, 76, 76, 0.26);
+  border-radius: 18px;
+  
 }
-
+.card a::before{
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
 .card__header,
 .card__content {
-  padding: 1rem;
+  
+  padding: .25rem;
+  margin-bottom: 8px;
 }
 
 .card__header h1,
@@ -50,11 +71,15 @@
 }
 
 .card__image {
+  
   width: 100%;
+  
 }
 
 .card__image img {
-  width: 100%;
+  margin-top: 30px;
+  width: 300px; height: 337px; object-fit: cover;
+  border-radius: 12px;
 }
 
 .card__actions {

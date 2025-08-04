@@ -12,17 +12,14 @@
         <li class="main-header__item">
             <a class="nav-link" href="/characters">Characters</a>
         </li>
-        <!-- <li class="main-header__item">
-            <a class="nav-link" href="/about">About</a>
-        </li> -->
-        <!-- <li class="main-header__item">
-            <a class="nav-link" href="/schedule">Schedule</a>
-        </li> -->
         <% if ( typeof isAuthenticated != 'undefined' && isAuthenticated) { %>
+            <li class="main-header__item">
+                    <a class="nav-link" href="/admin/home">Admin</a>
+            </li>
             <li class="main-header__item nav-link ">
-                <form class="nav-link logout"action="/logout" method="post">
+                <form action="/logout" method="post">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="submit">Logout</button>
+                    <button class="nav-link logout" type="submit">Logout</button>
                 </form>
             </li>
         <% } %>

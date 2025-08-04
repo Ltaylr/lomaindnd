@@ -13,7 +13,7 @@ h2{
 .main-header__nav{
     display: flex;
     justify-content: center;
-    
+    flex-basis: auto;
 }
 .level_ul{
     display: flex;
@@ -61,6 +61,7 @@ a{
     padding: 14px 16px;
     text-decoration: none;  
     border: 1px, solid, aqua;  
+    
 }
 
 .logout {
@@ -71,6 +72,14 @@ a{
     padding: 14px 16px;
     text-decoration: none;  
     border: 1px, solid, aqua;  
+    background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
 }
 
 .nav-link:hover{

@@ -1,0 +1,12 @@
+label{
+    color:aqua;
+}
+input {
+    color: aqua;
+}
+.character-form{
+    max-width: 400px
+}
+li{
+    list-style: none;
+}

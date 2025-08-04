@@ -1,0 +1,25 @@
+label{
+    color:aqua;
+}
+.image-input {
+    color: aqua;
+    
+}
+.form-control{
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 10px; 
+    
+    
+}
+input::file-selector-button{
+    display: block;
+}
+.character-form{
+display: inline-block;
+max-width: 700px;
+}
+.campaign-form{
+display: inline-block;
+max-width: 700px;
+}

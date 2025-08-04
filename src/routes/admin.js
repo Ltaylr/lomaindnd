@@ -10,6 +10,8 @@ const router = express.Router();
 
 const {body} = require('express-validator');
 
+router.get('/home', isAuth, adminController.getHome);
+router.get('/add-character', isAuth, adminController.getAddCharacter);
 // /admin/add-campaign => GET
 router.get('/add-campaign', isAuth, adminController.getAddCampaign);
 

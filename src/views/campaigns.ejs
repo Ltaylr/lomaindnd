@@ -1,9 +1,9 @@
-<%- include('../include/head.ejs') %>
-     <link rel="stylesheet" href="/css/campaign.css">
+<%- include('./include/head.ejs') %>
+     <link rel="stylesheet" href="/css/campaigns.css">
 </head>
 
 <body>
-    <%- include('../include/nav.ejs') %>
+    <%- include('./include/nav.ejs') %>
 
     <main>
         <h1>Campaigns</h1>
@@ -11,22 +11,19 @@
             <% if (campaigns.length > 0) { %>
                 <% for (let campaign of campaigns) { %>
                 <article class="card campaign-item">
-                                <header class="card__header">
-                                    <h1 class="campaign__title">
-                                        <%= campaign.title %>
-                                    </h1>
-                                </header>
+                                
                                 <div class="card__image">
                                     <img src="/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
                                 </div>
                                 <div class="card__content">
-                                    <p class="campaign__description">
-                                        <%= campaign.description %>
-                                    </p>
+                                    <h1 class="campaign__title">
+                                        <%= campaign.title %>
+                                    </h1>
                                 </div>
+                                <a class="card_link" href="/campaigns/<%= campaign._id %>"></a>
                             </article>
                 <% } %>
             <% } %>
         </ul>
     </main>
-<%- include('../include/end.ejs') %>
+<%- include('./include/end.ejs') %>

@@ -1,6 +1,10 @@
 const Campaign = require('../models/CampaignModel');
 const { validationResult } = require('express-validator');
 
+exports.getHome = (req, res, next) => {
+  res.render('admin/admin-home', 
+    { docTitle: 'Admin', path: '/admin/admin-home'});
+}
 exports.getAddCampaign = (req, res, next) => {
   
   res.render('admin/edit-campaign', {
@@ -15,14 +19,8 @@ exports.getAddCampaign = (req, res, next) => {
   });
 };
 
-exports.postAddCampaign = (req, res, next) => {
-  const title = req.body.title;
-  const image = req.file;
-  const description = req.body.description;
-
-  const errors = validationResult(req);
-  if (!image){
-    return res.status(422).render('admin/edit-campaign', {
+function return422(errorMessage){
+  return res.status(422).render('admin/edit-campaign', {
       docTitle: 'Add Campaign',
       path: '/admin/add-campaign',
       editing: false,
@@ -32,29 +30,24 @@ exports.postAddCampaign = (req, res, next) => {
         description: description
       },
       csrfToken: req.csrfToken(),
-      errorMessage: 'attached file is not an image',
+      errorMessage: errorMessage,
       isAuthenticated: req.session.isLoggedIn,
       validationErrors: errors.array()
     });
+}
+exports.postAddCampaign = (req, res, next) => {
+  const title = req.body.title;
+  const image = req.file;
+  const description = req.body.description;
+
+  const errors = validationResult(req);
+  if (!image){
+    return return422('attached file is not an image');
   }
   const imageUrl = image.path;
   if (!errors.isEmpty()) {
     console.log(errors.array());
-    return res.status(422).render('admin/edit-campaign', {
-      docTitle: 'Add campaign',
-      path: '/admin/add-campaign',
-      editing: false,
-      hasError: true,
-      campaign: {
-        title: title,
-        price: price,
-        description: description
-      },
-      csrfToken: req.csrfToken(),
-      errorMessage: errors.array()[0].msg,
-      isAuthenticated: req.session.isLoggedIn,
-      validationErrors: errors.array()
-    });
+    return return422(errors.array()[0].msg);
   }
 
   const campaign = new Campaign({
@@ -193,3 +186,17 @@ exports.deleteCampaign = (req, res, next) => {
       res.status(500).json({message: 'Deletion Failed'});
     });
 };
+
+exports.getAddCharacter = (req, res, next) => {
+  console.log('here');
+  res.render('admin/add-character', {
+    docTitle: 'Add character',
+    path: '/admin/add-character',
+    editing: false,
+    csrfToken: req.csrfToken(),
+    errorMessage: null,
+    hasError: false,
+    isAuthenticated: req.session.isLoggedIn,
+    validationErrors: []
+  });
+}

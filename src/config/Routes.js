@@ -5,6 +5,11 @@ const adminRoutes = require('../routes/admin');
 const authRoutes = require('../routes/auth');
 
 module.exports = function (app){
+    app.use((req, res, next) => {
+        res.locals.isAuthenticated = req.session.isLoggedIn;
+        res.locals.csrfToken = req.csrfToken();
+        return next();
+    });
     app.use(homeRoutes);
     app.use(charRoutes);
     app.use(campaignRoutes);
