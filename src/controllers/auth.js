@@ -315,8 +315,12 @@ exports.postSignup = (req, res, next) => {
 };
 
 exports.postLogout = (req, res, next) => {
+  console.log("here");
   req.session.destroy(err => {
     console.log(err);
-    res.redirect('/',{isAuthenticated: false});
+    console.log(here);
+    res.setHeader('Clear-Site-Data', '"cookies"');
+    //res.status(200).json({ message: 'You are logged out!' });
+    res.redirect('/',{isAuthenticated: false, csrfToken: req.csrfToken()});
   });
 };
