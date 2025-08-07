@@ -10,7 +10,6 @@
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.js",
     "postinstall": "npm run tsc",
     "tsc": "tsc"
-
   },
   "author": "Ltaylor",
   "license": "ISC",
@@ -26,6 +25,7 @@
     "express-session": "^1.18.2",
     "express-validator": "^7.2.1",
     "helmet": "^8.0.0",
+    "helmet-csp": "^4.0.0",
     "mongodb": "^6.18.0",
     "mongoose": "^8.16.5",
     "multer": "^2.0.2",

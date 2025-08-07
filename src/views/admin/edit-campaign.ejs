@@ -1,6 +1,6 @@
 <%- include('../include/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css"
-    
+    <link rel="stylesheet" href="/public/css/forms.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -43,5 +43,34 @@
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit"><% if (editing) { %>Update campaign<% } else { %>Add campaign<% } %></button>
         </form>
+        <% if (editing) { %>
+            
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button id="del-btn" class="btn" type="button">Delete</button>
+            
+        <% } %>
     </main>
+         <% if (editing) { %>
+        <script nonce="<%= cspNonce %>">
+        
+            document.getElementById("del-btn").addEventListener("click", function() {
+                $.ajax({
+                        url: '/admin/campaign/<%= campaign._id %>',
+                        type: 'DELETE',
+                        success: function(res){
+                            //window.location.href = '/admin/campaigns';
+                            console.log("Success")
+                            location.href = "/admin/campaigns"
+                        },
+                        error: (xhr, status, err) => {
+                            console.log('Error deleting campaign')
+                        }
+                    })
+                }
+
+            )
+
+            
+        </script>
+    <% } %>
 <%- include('../include/end.ejs') %>

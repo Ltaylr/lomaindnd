@@ -1,1 +1,1 @@
-{"version":3,"file":"admin.d.ts","sourceRoot":"","sources":["../../src/controllers/admin.js"],"names":[],"mappings":"AAGyB,oEAYxB;AAEyB,oEA4DzB;AAEyB,oEA4BzB;AAE0B,qEAkD1B;AAEsB,kEAqBtB;AAEwB,oEAUxB"}
+{"version":3,"file":"admin.d.ts","sourceRoot":"","sources":["../../src/controllers/admin.js"],"names":[],"mappings":"AAGkB,6DAGjB;AACwB,oEAYxB;AAkByB,oEAiCzB;AAEyB,oEA4BzB;AAE0B,qEAkD1B;AAEsB,kEAqBtB;AAEwB,oEAUxB;AAEyB,qEAYzB"}

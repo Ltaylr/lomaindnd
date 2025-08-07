@@ -6,10 +6,13 @@ const authRoutes = require('../routes/auth');
 
 module.exports = function (app){
     app.use((req, res, next) => {
-        console.log("erere");
-        console.log(req);
+        //console.log("erere");
+        
         res.locals.isAuthenticated = req.session.isLoggedIn;
         res.locals.csrfToken = req.csrfToken();
+        console.log("CSRF:" + res.locals.csrfToken);
+        console.log(req.path)
+        console.log(req.method);
         return next();
     });
     app.use('/admin', authRoutes);

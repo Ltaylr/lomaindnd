@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt = require('@types/bcryptjs');
+const bcrypt = require('bcryptjs');
 const getPasswordHash = async (plaintext) => {
     const rounds = 12;
     const salt = await bcrypt.genSalt(rounds);
