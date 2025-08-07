@@ -31,7 +31,7 @@ const fileStorage = multer.diskStorage({
     }
     }
 const singleImageUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});
-const multiUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter})//.fields([ {name: 'pdfFile', maxCount: 1}, {name:'image', maxCount: 1}]);
+const multiUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});//.fields([ {name: 'pdfFile', maxCount: 1}, {name:'image', maxCount: 1}]);
 
 module.exports = singleImageUpload;
 module.exports = multiUpload;

@@ -37,9 +37,9 @@ function return422(req, res, errorMessage, title, description, errors){
 }
 exports.postAddCampaign = (req, res, next) => {
   const title = req.body.title;
-  const image = req.file;
+  const image = req.body.image;
   const description = req.body.description;
-
+  console.log("HERE");
   const errors = validationResult(req);
   if (!image){
     return return422(req, res, 'attached file is not an image', title, description, errors);
@@ -155,12 +155,10 @@ exports.postEditCampaign = (req, res, next) => {
 };
 
 exports.getCampaigns = (req, res, next) => {
-  console.log(req.session.user._id);
+  
   Campaign.find({userId: req.session.user._id})
-    // .select('title price -_id')
-    // .populate('userId', 'name')
     .then(campaigns => {
-      console.log(campaigns);
+      
       res.render('admin/campaigns', {
         campaigns: campaigns,
         docTitle: 'Admin campaigns',

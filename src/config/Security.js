@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const contentSecurityPolicy = require('helmet-csp')
 const cookieParser = require('cookie-parser');
 const crypto = require('node:crypto');
+const express = require('express');
 
 module.exports = function(app, secret) {
     
@@ -32,7 +33,8 @@ module.exports = function(app, secret) {
             },
         }),
     );
-  
+    //app.use(express.json());
+    app.use((req, res, next) =>{ console.log(req.body); next()});
     app.use(cookieParser(secret));
     app.use(tinyCsrf(secret));
     //app.use((req, res, next) => {

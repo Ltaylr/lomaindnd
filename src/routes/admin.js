@@ -66,7 +66,8 @@ router.post(
         .trim()
     ],
     isAuth,
-    //singleImageUpload.single('image'),
+    
+    singleImageUpload.single('image'),
     adminController.postAddCampaign
   );
   
