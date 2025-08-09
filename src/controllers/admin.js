@@ -43,7 +43,8 @@ exports.postAddCampaign = (req, res, next) => {
   const description = req.body.description;
   console.log("HERE");
   const errors = validationResult(req);
-  const imageUrl = (!image) ? './public/images/d20Large.png' : image[0].path;
+  console.log(image.path);
+  const imageUrl = (!image) ? './public/images/d20Large.png' : image.path;
   
   if (!errors.isEmpty()) {
     console.log(errors.array());
