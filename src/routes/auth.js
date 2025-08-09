@@ -16,11 +16,11 @@ const csrfSynchronisedProtection = require('../config/Security');
 
 router.get('/login', csrfSynchronisedProtection, authController.getLogin);
 
-router.get('/signup', authController.getSignup);
+router.get('/signup', csrfSynchronisedProtection, authController.getSignup);
 
-router.get('/reset', authController.getReset);
+router.get('/reset', csrfSynchronisedProtection,authController.getReset);
 
-router.post('/reset', authController.postReset);
+router.post('/reset', csrfSynchronisedProtection, authController.postReset);
 
 router.get('/reset/:resetToken', authController.getResetWithToken);
 
