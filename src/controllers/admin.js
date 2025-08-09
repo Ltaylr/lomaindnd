@@ -43,10 +43,8 @@ exports.postAddCampaign = (req, res, next) => {
   const description = req.body.description;
   console.log("HERE");
   const errors = validationResult(req);
-  if (!image){
-    return return422(req, res, 'attached file is not an image', title, description, errors);
-  }
-  const imageUrl = image.path;
+  const imageUrl = (!image) ? './public/images/d20Large.png' : image[0].path;
+  
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return return422(errors.array()[0].msg);
@@ -249,13 +247,10 @@ exports.postAddCharacter = (req, res, next) => {
   const level = req.body.levels;
   const pdfFile = req.files.pdfFile;
   const description = req.body.description;
-
   const errors = validationResult(req);
-  
-  if (!image){
-    
-  }
   const imageUrl = (!image) ? './public/images/d20Large.png' : image[0].path;
+
+
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return return422(errors.array()[0].msg);
