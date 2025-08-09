@@ -2,6 +2,47 @@ const fs = require('fs');
 const topPath = require('../util/path');
 const path = require('path');
 
+const Character = require("../models/Character");
+
+exports.getCharacters = async (req, res, next) => {
+
+    Character.find({})
+    .then(characters => {
+      
+      res.render('characters', {
+        characters: characters,
+        docTitle: 'Characters',
+        path: '/characters',
+        //csrfToken: req.csrfToken(),
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+}
+
+exports.getCharacter = (req, res, next) => {
+  const campId = req.params.characterId;
+  Character.findById(campId)
+    .then(character => {
+      res.render('character', {
+        character: character,
+        docTitle: character.title,
+        path: '/character',
+        isAuthenticated: req.session.isLoggedIn,
+        csrfToken: req.csrfToken()
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
 exports.getCharacterLevelOptions = (req, res, next) => {
     const levelFolders = fs.readdirSync(path.join(topPath, 'files', 'characters'));
     res.render('characters', {docTitle: 'Characters', levels: levelFolders});

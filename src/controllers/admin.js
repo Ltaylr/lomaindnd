@@ -1,4 +1,6 @@
 const Campaign = require('../models/CampaignModel');
+const Character = require('../models/Character');
+
 const { validationResult } = require('express-validator');
 
 exports.getHome = (req, res, next) => {
@@ -37,7 +39,7 @@ function return422(req, res, errorMessage, title, description, errors){
 }
 exports.postAddCampaign = (req, res, next) => {
   const title = req.body.title;
-  const image = req.body.image;
+  const image = req.file;
   const description = req.body.description;
   console.log("HERE");
   const errors = validationResult(req);
@@ -175,11 +177,48 @@ exports.getCampaigns = (req, res, next) => {
     });
 };
 
+exports.getCharacters = (req, res, next) => {
+  
+  Character.find({})
+    .then(characters => {
+      
+      res.render('admin/characters', {
+        characters: characters,
+        docTitle: 'Admin characters',
+        path: '/admin/characters',
+        csrfToken: req.csrfToken(),
+        isAuthenticated: req.session.isLoggedIn
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+
 exports.deleteCampaign = (req, res, next) => {
   const campId = req.params.campaignId;
   Campaign.deleteOne({_id: campId, userId: req.session.user._id})
     .then(() => {
       console.log('DESTROYED campaign');
+      res.status(200).send();
+    })
+    .catch(err => {
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+
+exports.deleteCharacter = (req, res, next) => {
+  const charId = req.params.charId;
+  console.log(charId);
+  Character.deleteOne({_id: charId})
+    .then(() => {
+      console.log('DESTROYED Character');
       res.status(200).send();
     })
     .catch(err => {
@@ -206,16 +245,17 @@ exports.getAddCharacter = (req, res, next) => {
 
 exports.postAddCharacter = (req, res, next) => {
   const name = req.body.name;
-  const image = req.file;
-  const level = req.level;
-  const pdfFile = req.pdfFile;
+  const image = req.files.image;
+  const level = req.body.levels;
+  const pdfFile = req.files.pdfFile;
   const description = req.body.description;
 
   const errors = validationResult(req);
+  
   if (!image){
-    return return422('attached file is not an image');
+    
   }
-  const imageUrl = image.path;
+  const imageUrl = (!image) ? './public/images/d20Large.png' : image[0].path;
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return return422(errors.array()[0].msg);
@@ -223,11 +263,13 @@ exports.postAddCharacter = (req, res, next) => {
 
   const character = new Character({
     name: name,
-    level:level,
+    level:Number(level),
     isPregen: true,
     description: description,
     imageUrl: imageUrl,
-    pdfFile: pdfFile,
+    hasCharacterSheet: true,
+    isPlayerChar: false,
+    characterSheetUrl: pdfFile[0].path,
     userId: req.session.user
   });
   character

@@ -16,7 +16,7 @@ exports.getAddCampaign = (req, res, next) => {
         validationErrors: []
     });
 };
-function return422(errorMessage) {
+function return422(req, res, errorMessage, title, description, errors) {
     return res.status(422).render('admin/edit-campaign', {
         docTitle: 'Add Campaign',
         path: '/admin/add-campaign',
@@ -34,11 +34,12 @@ function return422(errorMessage) {
 }
 exports.postAddCampaign = (req, res, next) => {
     const title = req.body.title;
-    const image = req.file;
+    const image = req.body.image;
     const description = req.body.description;
+    console.log("HERE");
     const errors = validationResult(req);
     if (!image) {
-        return return422('attached file is not an image');
+        return return422(req, res, 'attached file is not an image', title, description, errors);
     }
     const imageUrl = image.path;
     if (!errors.isEmpty()) {
@@ -69,8 +70,9 @@ exports.getEditCampaign = (req, res, next) => {
     if (!editMode) {
         return res.redirect('/');
     }
+    console.log(req.params);
     const campaignId = req.params.campaignId;
-    campaign.findById(campaignId)
+    Campaign.findById(campaignId)
         .then(campaign => {
         if (!campaign) {
             return res.redirect('/');
@@ -84,7 +86,8 @@ exports.getEditCampaign = (req, res, next) => {
             csrfToken: req.csrfToken(),
             errorMessage: null,
             validationErrors: [],
-            isAuthenticated: req.session.isLoggedIn
+            isAuthenticated: req.session.isLoggedIn,
+            nonce: res.locals.cspNonce
         });
     })
         .catch(err => {
@@ -108,20 +111,20 @@ exports.postEditCampaign = (req, res, next) => {
             campaign: {
                 title: updatedTitle,
                 description: updatedDesc,
-                _id: prodId
+                _id: campaignId
             },
             csrfToken: req.csrfToken(),
             errorMessage: errors.array()[0].msg,
             validationErrors: errors.array()
         });
     }
-    campaign.findById(campaignId)
+    Campaign.findById(campaignId)
         .then(campaign => {
-        if (campaign.userId.toString() !== req.user._id.toString()) {
+        console.log(req);
+        if (campaign.userId.toString() !== req.session.user._id.toString()) {
             return res.redirect('/');
         }
         campaign.title = updatedTitle;
-        campaign.price = updatedPrice;
         campaign.description = updatedDesc;
         if (updatedImage) {
             campaign.imageUrl = updatedImage.path;
@@ -139,12 +142,8 @@ exports.postEditCampaign = (req, res, next) => {
     });
 };
 exports.getCampaigns = (req, res, next) => {
-    console.log(req.session.user._id);
     Campaign.find({ userId: req.session.user._id })
-        // .select('title price -_id')
-        // .populate('userId', 'name')
         .then(campaigns => {
-        console.log(campaigns);
         res.render('admin/campaigns', {
             campaigns: campaigns,
             docTitle: 'Admin campaigns',
@@ -161,14 +160,17 @@ exports.getCampaigns = (req, res, next) => {
     });
 };
 exports.deleteCampaign = (req, res, next) => {
-    const prodId = req.params.campaignId;
-    campaign.deleteOne({ _id: prodId, userId: req.user._id })
+    const campId = req.params.campaignId;
+    Campaign.deleteOne({ _id: campId, userId: req.session.user._id })
         .then(() => {
         console.log('DESTROYED campaign');
-        res.status(200).json({ message: 'Success!' });
+        res.status(200).send();
     })
         .catch(err => {
-        res.status(500).json({ message: 'Deletion Failed' });
+        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 exports.getAddCharacter = (req, res, next) => {
@@ -182,6 +184,43 @@ exports.getAddCharacter = (req, res, next) => {
         hasError: false,
         isAuthenticated: req.session.isLoggedIn,
         validationErrors: []
+    });
+};
+exports.postAddCharacter = (req, res, next) => {
+    const name = req.body.name;
+    const image = req.file;
+    const level = req.level;
+    const pdfFile = req.pdfFile;
+    const description = req.body.description;
+    const errors = validationResult(req);
+    if (!image) {
+        return return422('attached file is not an image');
+    }
+    const imageUrl = image.path;
+    if (!errors.isEmpty()) {
+        console.log(errors.array());
+        return return422(errors.array()[0].msg);
+    }
+    const character = new Character({
+        name: name,
+        level: level,
+        isPregen: true,
+        description: description,
+        imageUrl: imageUrl,
+        pdfFile: pdfFile,
+        userId: req.session.user
+    });
+    character
+        .save()
+        .then(result => {
+        // console.log(result);
+        console.log('Added Character');
+        res.redirect('/admin/characters');
+    })
+        .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 //# sourceMappingURL=admin.js.map

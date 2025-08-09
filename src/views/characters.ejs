@@ -1,18 +1,35 @@
 <%- include('./include/head.ejs') %>
-    <!-- <link rel="stylesheet" href="/css/product.css"> -->
+     <link rel="stylesheet" href="/public/css/cards.css">
 </head>
 
 <body>
     <%- include('./include/nav.ejs') %>
 
     <main>
-        <h1>Pregen Characters</h1>
-        <ul class="level_ul">
-            <% if (levels.length > 0) { %>
-                <% for (let level of levels) { %>
-                <li class="level-link-li">
-                    <a class="char_level" href="/characters/<%= level %>"><%= level %></a>
-                </li>
+        <h1>characters</h1>
+        <ul class="grid">
+            <% if (characters.length > 0) { %>
+                <% for (let character of characters) { %>
+                <article class="card character-item">
+                                <header class="card__header">
+                                    <h1 class="character__name">
+                                        <%= character.name %>
+                                    </h1>
+                                </header>
+                                <div class="card__image">
+                                    <img src="/<%= character.imageUrl %>" alt="<%= character.title %>">
+                                </div>
+                                <div class="card__content">
+                                    <p class="character__description">
+                                        Level <%= character.level %> <%= character.description %> 
+                                    </p>
+                                </div>
+                                <div class="card__actions">
+                                    <a target="_blank" href="<%= character.characterSheetUrl %>" class="btn">Download pdf</a>
+                                    <input type="hidden" value="<%= character._id %>" name="characterId">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                </div>
+                            </article>
                 <% } %>
             <% } %>
         </ul>

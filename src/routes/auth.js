@@ -10,7 +10,11 @@ const User = require('../models/User');
 
 const validateCode = require('../util/checkSignupCode');
 
-router.get('/login', authController.getLogin);
+const multer = require('multer');
+
+const csrfSynchronisedProtection = require('../config/Security');
+
+router.get('/login', csrfSynchronisedProtection, authController.getLogin);
 
 router.get('/signup', authController.getSignup);
 
@@ -20,7 +24,7 @@ router.post('/reset', authController.postReset);
 
 router.get('/reset/:resetToken', authController.getResetWithToken);
 
-router.post('/reset/:resetToken', authController.postResetPassword);
+router.post('/reset/:resetToken', csrfSynchronisedProtection, authController.postResetPassword);
 
 router.post('/login', 
     [
@@ -36,6 +40,7 @@ router.post('/login',
         })})
         
     ],
+    csrfSynchronisedProtection,
     authController.postLogin);
 
 router.post('/signup', [
@@ -75,8 +80,13 @@ router.post('/signup', [
     .normalizeEmail(),
     
     ]
-    ,authController.postSignup);
+    ,csrfSynchronisedProtection,authController.postSignup);
 
-router.post('/logout', authController.postLogout);
+router.post('/logout', 
+    (req, res, next)=>{
+        console.log("hitting logout route...");
+        next();
+    },
+    csrfSynchronisedProtection, authController.postLogout);
 
 module.exports = router;   

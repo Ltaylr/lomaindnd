@@ -40,51 +40,55 @@
                 <input id="campId" type="hidden" value="<%= campaign._id %>" name="campaignId">
             <% } %>
 
-            <input id="csrf" type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button id="submitId" class="btn" type="submit"><% if (editing) { %>Update campaign<% } else { %>Add campaign<% } %></button>
         </form>
         <% if (editing) { %>
             
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button id="del-btn" class="btn" type="button">Delete</button>
             
         <% } %>
     </main>
     <script  nonce="<%= cspNonce %>">
-            document.getElementById("submitId").addEventListener("click", function(event){
-                event.preventDefault();
-                const formData = new FormData(document.getElementById("campaign-form"));
-                const title = document.getElementById("title").value;
-                const description = document.getElementById("description").value;
-                const image = document.getElementById("image").files[0];
-                const csrfToken = document.getElementById('csrf').value;
-                const campId = "";
-                "<% if(editing) { %>"
-                campId = document.getElementById("campId").value;
-                formData.append('campId', campId);
-                "<% } %>"
-                const data = {
-                    title: title,
-                    description: description,
-                    image: image,
-                    campId: campId,
-                    _csrf: csrfToken
-                }
-                console.log(formData);
-                fetch('/admin/<% if (editing) { %>edit-campaign<% } else { %>add-campaign<% } %>',{
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => {
-                        console.log(res);
-                });
-
-            })
+    //        document.getElementById("submitId").addEventListener("click", function(event){
+    //            event.preventDefault();
+    //            const formData = new FormData(document.getElementById("campaign-form"));
+    //            const title = document.getElementById("title").value;
+    //            const description = document.getElementById("description").value;
+    //            const image = document.getElementById("image").files[0];
+    //            const csrfToken = document.getElementById('csrf').value;
+    //            const campId = "";
+    //            "<% if(editing) { %>"
+    //            campId = document.getElementById("campId").value;
+    //            formData.append('campId', campId);
+    //            "<% } %>"
+    //            
+    //            const data = {
+    //                title: title,
+    //                description: description,
+    //                image: image,
+    //                campId: campId,
+    //                _csrf: csrfToken
+    //            }
+    //            console.log(formData);
+    //            fetch('/admin/<% if (editing) { %>edit-campaign<% } else { %>add-campaign<% } %>',{
+    //                method: 'POST',
+    //                body: formData
+    //            })
+    //            .then(res => {
+    //                    console.log(res);
+    //            });
+//
+    //        })
             "<% if(editing) { %>"
             document.getElementById("del-btn").addEventListener("click", function() {
                 $.ajax({
                         url: '/admin/campaign/<% if (editing) { %><%= campaign._id %><% } %>',
                         type: 'DELETE',
+                        headers:{
+                            'x-csrf-token': '<%= csrfToken %>'
+                        },
                         success: function(res){
                             //window.location.href = '/admin/campaigns';
                             console.log("Success")

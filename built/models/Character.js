@@ -18,6 +18,14 @@ const characterSchema = new Schema({
         type: Boolean,
         required: false
     },
+    hasCharacterSheet: {
+        type: Boolean,
+        required: false
+    },
+    isPregen: {
+        type: Boolean,
+        required: false
+    },
     characterSheetUrl: {
         type: String,
         required: false

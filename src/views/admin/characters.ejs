@@ -1,0 +1,69 @@
+<%- include('../include/head.ejs') %>
+    <link rel="stylesheet" href="/public/css/cards.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <%- include('../include/nav.ejs') %>
+
+    <main>
+        <h1>characters</h1>
+        <ul class="grid">
+            <% if (characters.length > 0) { %>
+                <% for (let character of characters) { %>
+                <article class="card character-item">
+                                <header class="card__header">
+                                    <h1 class="character__name">
+                                        <%= character.name %>
+                                    </h1>
+                                </header>
+                                <div class="card__image">
+                                    <img src="/<%= character.imageUrl %>" alt="<%= character.title %>">
+                                </div>
+                                <div class="card__content">
+                                    <p class="character__description">
+                                        Level <%= character.level %> <%= character.description %> 
+                                    </p>
+                                </div>
+                                <div class="card__actions">
+                                    <a href="/admin/edit-character/<%= character._id %>?edit=true" class="btn">Edit</a>
+                                    <input type="hidden" value="<%= character._id %>" name="characterId">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                </div>
+                                <div class="card__actions">
+                                    <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <input id="charId" type="hidden" value="<%= character._id %>" name="characterId">
+                                    <button id="del-btn" class="btn" type="button">Delete</button>
+                                </div>
+                            </article>
+                <% } %>
+            <% } %>
+        </ul>
+    </main>
+    <script  nonce="<%= cspNonce %>">
+        
+        let delBtns = document.querySelectorAll('#del-btn')
+        delBtns.forEach((btn) => btn.addEventListener("click", function() {
+                    const elem = $(btn).prev();
+
+                    const charId = elem[0].value;
+                    $.ajax({
+                            url: '/admin/character/' + charId,
+                            type: 'DELETE',
+                            headers:{
+                                'x-csrf-token': '<%= csrfToken %>'
+                            },
+                            success: function(res){
+                                //window.location.href = '/admin/campaigns';
+                                console.log("Success")
+                                location.href = "/admin/characters"
+                            },
+                            error: (xhr, status, err) => {
+                                console.log('Error deleting character')
+                            }
+                        })
+                    }
+
+                ))
+    </script>
+<%- include('../include/end.ejs') %>

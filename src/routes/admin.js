@@ -10,7 +10,11 @@ const router = express.Router();
 
 const {body} = require('express-validator');
 
+const csrfSynchronisedProtection = require('../config/Security');
+
 const multer = require('multer');
+
+var randomstring = require("randomstring");
 
 const fileStorage = multer.diskStorage({
       destination: (req, file, cb) => {
@@ -29,7 +33,9 @@ const fileStorage = multer.diskStorage({
           console.log("here");
           cb(null, true);
         }
-        cb(null, false);
+        else{
+          cb(null, false);
+        }
       }
       else{
       if(file.fieldname === 'pdfFile')
@@ -38,44 +44,74 @@ const fileStorage = multer.diskStorage({
         if(file.mimetype === 'application/pdf'){
          cb(null, true);
         }
-        cb(null, false);
+        else{
+          cb(null, false);
+        }
       }
     }
     }
 const singleImageUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});
-//const multiUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});
+const multiUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});
 
-router.get('/home', isAuth, adminController.getHome);
-router.get('/add-character', isAuth, adminController.getAddCharacter);
+router.get('/home', 
+  isAuth, 
+  csrfSynchronisedProtection, 
+  adminController.getHome);
+
+router.get('/add-character', 
+  isAuth, 
+  csrfSynchronisedProtection, 
+  adminController.getAddCharacter);
 // /admin/add-campaign => GET
-router.get('/add-campaign', isAuth, adminController.getAddCampaign);
+router.get('/add-campaign', 
+  csrfSynchronisedProtection, 
+  isAuth, 
+  adminController.getAddCampaign);
 
 // /admin/campaigns => GET
-router.get('/campaigns', isAuth, adminController.getCampaigns);
+router.get('/campaigns', 
+  csrfSynchronisedProtection, 
+  isAuth, 
+  adminController.getCampaigns);
+
+router.get('/characters', 
+  csrfSynchronisedProtection, 
+  isAuth, 
+  adminController.getCharacters);
 
 // /admin/add-campaign => POST
 router.post(
     '/add-campaign',
+    singleImageUpload.single('image'),
     [
       body('title')
-        .isString()
-        .isLength({ min: 3 })
-        .trim(),
+      .isString(),
+      body('title')
+      .isLength({ min: 3 })
+      .trim(),
       body('description')
         .isLength({ min: 0, max: 2000 })
         .trim()
     ],
     isAuth,
-    
-    singleImageUpload.single('image'),
+    csrfSynchronisedProtection,
     adminController.postAddCampaign
   );
   
 router.post(
     '/add-character',
+    multiUpload
+    .fields([ 
+      {name: 'pdfFile', maxCount: 1}, 
+      {name:'image', maxCount: 1}]),
+     (req, res, next) => {
+      console.log(req.body);
+      next();
+     } ,
     [
       body('name')
-        .isString()
+        .isString(),
+        body('name')
         .isLength({ min: 3 })
         .trim(),
       body('description')
@@ -83,17 +119,22 @@ router.post(
         .trim()
     ],
     isAuth,
-    //multiUpload.fields([ {name: 'pdfFile', maxCount: 1}, {name:'image', maxCount: 1}]),
-    adminController.postAddCampaign
+    csrfSynchronisedProtection,
+    adminController.postAddCharacter
   );
 
-router.get('/edit-campaign/:campaignId', isAuth, adminController.getEditCampaign);
+router.get('/edit-campaign/:campaignId', 
+  isAuth,
+  csrfSynchronisedProtection, 
+  adminController.getEditCampaign);
 
 router.post(
     '/edit-campaign',
+    singleImageUpload.single('image'),
     [
       body('title')
-        .isString()
+        .isString(),
+        body('title')
         .isLength({ min: 3 })
         .trim(),
       body('description')
@@ -101,9 +142,18 @@ router.post(
         .trim()
     ],
     isAuth,
+    csrfSynchronisedProtection,
     adminController.postEditCampaign
   );
 
-router.delete('/campaign/:campaignId', isAuth, adminController.deleteCampaign);
+router.delete('/campaign/:campaignId', 
+  isAuth, 
+  csrfSynchronisedProtection, 
+  adminController.deleteCampaign);
+
+router.delete('/character/:charId', 
+isAuth, 
+csrfSynchronisedProtection, 
+adminController.deleteCharacter);
 
 module.exports = router;

@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const { validationResult } = require('express-validator');
-const { getPasswordHash, comparePassword } = require("../util/PasswordSecurity.ts");
 var transport = nodemailer.createTransport({
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,

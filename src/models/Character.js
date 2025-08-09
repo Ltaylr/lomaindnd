@@ -8,6 +8,10 @@ const characterSchema = new Schema(
             type: String,
             required: true  
         },
+        level:{
+            type: Number,
+            required: false
+        },
         imageUrl:{
             type: String,
             required: false
@@ -46,4 +50,4 @@ const characterSchema = new Schema(
     }
 )
 
-module.exports = mongoose.model('Character', campaignSchema);
+module.exports = mongoose.model('Character', characterSchema);

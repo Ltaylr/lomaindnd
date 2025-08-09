@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const bodyParser = require('body-parser');
+
 module.exports = function(app, secrets){
 
     const MONGODB_URI =
@@ -25,5 +27,5 @@ module.exports = function(app, secrets){
 
 
     mongoose.connect(MONGODB_URI, {useNewUrlParser: true})
-
+    
 }

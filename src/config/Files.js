@@ -37,8 +37,12 @@ module.exports = function(app) {
         }
         }
     
-    const singleImageUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});
-    app.use(singleImageUpload.single('image'));
+    //const singleImageUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});
+    //app.use(singleImageUpload.single('image'));
+    app.use((req, res, next) => {
+      console.log(req.path);
+      next();
+    })
     app.use(express.static('./'));
     app.use('images', express.static('images'));
     app.use('../files', express.static(path.join(__dirname, 'files')));
