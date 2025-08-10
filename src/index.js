@@ -11,10 +11,6 @@ const PORT = 8080;
 app.set('view engine', 'ejs');
 app.set('views', './src/views');
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use((req, res, next) => {
-  //console.log(req.body);
-  next();
-})
 app.use(flash());
 
 require('./config/Files')(app);
