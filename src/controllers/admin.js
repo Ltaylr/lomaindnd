@@ -1,5 +1,6 @@
 const Campaign = require('../models/CampaignModel');
 const Character = require('../models/Character');
+const path = require('path');
 
 const { validationResult } = require('express-validator');
 
@@ -43,9 +44,9 @@ exports.postAddCampaign = (req, res, next) => {
   const description = req.body.description;
   console.log("HERE");
   const errors = validationResult(req);
-  console.log(image.path);
-  const imageUrl = (!image) ? './public/images/d20Large.png' : image.path;
-  
+  //console.log(image.path);
+  const imageUrl = (!image) ? 'd20Large.png' : path.basename(image.path);
+  console.log(imageUrl);
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return return422(errors.array()[0].msg);
@@ -249,8 +250,27 @@ exports.postAddCharacter = (req, res, next) => {
   const pdfFile = req.files.pdfFile;
   const description = req.body.description;
   const errors = validationResult(req);
-  const imageUrl = (!image) ? './public/images/d20Large.png' : image[0].path;
+  const imageUrl = (!image) ? '/images/d20Large.png' : path.basename(image[0].path);
+  const pdfUrl = path.basename(image[0].path);
+  if(!pdfFile){
+    return res.status(422).render('admin/add-character', {
+      docTitle: 'Add character',
+      path: '/admin/add-character',
+      editing: false,
+      hasError: true,
+      character: {
+        name: name,
+        description: description,
+        level: level
+      },
+      csrfToken: req.csrfToken(),
+      errorMessage: errorMessage,
+      isAuthenticated: req.session.isLoggedIn,
+      validationErrors: errors.array()
+    });
+  }
 
+  console.log(imageUrl);
 
   if (!errors.isEmpty()) {
     console.log(errors.array());

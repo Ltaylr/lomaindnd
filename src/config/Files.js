@@ -43,10 +43,15 @@ module.exports = function(app) {
       console.log(req.path);
       next();
     })
-    app.use(express.static('./'));
-    app.use('images', express.static('images'));
-    app.use('../files', express.static(path.join(__dirname, 'files')));
-    app.use(express.static(path.join(__dirname, 'files', 'characters')));
+    
+    
+    //console.log(path.join(topPath,'../public/'))
+    app.use(express.static(path.join(topPath, '../public')));
+    //app.use(express.static(path.join(topPath, '../public/images')));
+    //a//pp.use('css', express.static(path.join(topPath, '../public/css')));
+    //app.use('chars', express.static(path.join(topPath, '../public/chars')));
+    //app.use('images', express.static('images'));
+   // app.use(express.static(path.join(__dirname, 'files', 'characters')));
     
 
 }

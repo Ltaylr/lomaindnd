@@ -4,10 +4,10 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const bodyParser = require('body-parser');
 
-module.exports = function(app, secrets){
+module.exports = function(app, configEnv){
 
     const MONGODB_URI =
-        'mongodb://localhost:27017';
+        configEnv.dbConnectionString;
 
     const store = new MongoDBStore({
       uri: MONGODB_URI,
@@ -18,7 +18,7 @@ module.exports = function(app, secrets){
 
     app.use(
         session({
-        secret: secrets,
+        secret: configEnv.secrets,
         resave: false,
         saveUninitialized: false,
         store: store

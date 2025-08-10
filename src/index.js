@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+import configEnv from './config/configEnv.json';
 const app = express();
 
-const secrets = ['mcnvhf5768kg;hvpe9gp92h4wef;sdnv'];
+console.log(configEnv);
+const secrets = configEnv.secrets;
 const flash = require('connect-flash');
 const PORT = 8080;
 
@@ -17,7 +18,7 @@ app.use((req, res, next) => {
 app.use(flash());
 
 require('./config/Files')(app);
-require('./config/Session')(app, secrets);
+require('./config/Session')(app, configEnv);
 require('./config/Security')(app, secrets[0]);
 app.use((req, res, next)=>{
   console.log("here");

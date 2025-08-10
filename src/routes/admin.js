@@ -14,12 +14,14 @@ const csrfSynchronisedProtection = require('../config/Security');
 
 const multer = require('multer');
 
+const topPath = require('../util/path');
+
 var randomstring = require("randomstring");
 
 const fileStorage = multer.diskStorage({
       destination: (req, file, cb) => {
-        if(file.fieldname ==='image') cb(null,  path.join('./public/images'));
-        if(file.fieldname ==='pdfFile') cb(null, './public/chars');
+        if(file.fieldname ==='image') cb(null,  path.join(topPath, '../public', 'images'));
+        if(file.fieldname ==='pdfFile') cb(null, path.join(topPath, '../public', 'chars'));
       },
       filename: (req, file, cb) => {
         cb(null, randomstring.generate(8) + '_'  + file.originalname);

@@ -304,7 +304,7 @@ exports.postSignup = (req, res, next) => {
         
     })
     .then(result => {
-      res.redirect('/admin/campaigns');
+      res.redirect('/admin/login');
     })
     .catch(err => {
       console.log(err);

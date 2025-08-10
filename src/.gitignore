@@ -12,8 +12,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 **/*.jpg
 **/*.pdf
-/src/files/signupCodes.txt
-
+/config/configEnv.json
 # Runtime data
 pids
 *.pid

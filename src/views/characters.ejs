@@ -1,5 +1,5 @@
 <%- include('./include/head.ejs') %>
-     <link rel="stylesheet" href="/public/css/cards.css">
+     <link rel="stylesheet" href="/css/cards.css">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
                                     </h1>
                                 </header>
                                 <div class="card__image">
-                                    <img src="/<%= character.imageUrl %>" alt="<%= character.title %>">
+                                    <img src="/images/<%= character.imageUrl %>" alt="<%= character.title %>">
                                 </div>
                                 <div class="card__content">
                                     <p class="character__description">
@@ -25,7 +25,7 @@
                                     </p>
                                 </div>
                                 <div class="card__actions">
-                                    <a target="_blank" href="<%= character.characterSheetUrl %>" class="btn">Download pdf</a>
+                                    <a target="_blank" href="/chars/<%= character.characterSheetUrl %>" class="btn">Download pdf</a>
                                     <input type="hidden" value="<%= character._id %>" name="characterId">
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 </div>
