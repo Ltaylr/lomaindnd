@@ -20,10 +20,6 @@ app.use(flash());
 require('./config/Files')(app);
 require('./config/Session')(app, configEnv);
 require('./config/Security')(app, secrets[0]);
-app.use((req, res, next)=>{
-  console.log("here");
-  next();
-})
 require('./config/Routes')(app);
 
 app.use((req, res, next) => {
