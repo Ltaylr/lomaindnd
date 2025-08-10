@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-import configEnv from './config/configEnv.json';
+const configEnv = require('./config/configEnv.json');
 const app = express();
 
 console.log(configEnv);
