@@ -250,8 +250,8 @@ exports.postAddCharacter = (req, res, next) => {
   const pdfFile = req.files.pdfFile;
   const description = req.body.description;
   const errors = validationResult(req);
-  const imageUrl = (!image) ? '/images/d20Large.png' : path.basename(image[0].path);
-  const pdfUrl = path.basename(image[0].path);
+  const imageUrl = (!image) ? 'd20Large.png' : path.basename(image[0].path);
+  const pdfUrl = path.basename(pdfFile[0].path);
   if(!pdfFile){
     return res.status(422).render('admin/add-character', {
       docTitle: 'Add character',
@@ -285,7 +285,7 @@ exports.postAddCharacter = (req, res, next) => {
     imageUrl: imageUrl,
     hasCharacterSheet: true,
     isPlayerChar: false,
-    characterSheetUrl: pdfFile[0].path,
+    characterSheetUrl: pdfUrl,
     userId: req.session.user
   });
   character
