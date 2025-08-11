@@ -14,6 +14,7 @@ exports.getCampaigns = async (req, res, next) => {
 
 exports.getCampaign = (req, res, next) => {
   const campId = req.params.campaignId;
+  console.log("HERE",campId);
   Campaign.findById(campId)
     .then(campaign => {
       res.render('campaign', {
@@ -21,7 +22,6 @@ exports.getCampaign = (req, res, next) => {
         docTitle: campaign.title,
         path: '/campaign',
         isAuthenticated: req.session.isLoggedIn,
-        csrfToken: req.csrfToken()
       });
     })
     .catch(err => {

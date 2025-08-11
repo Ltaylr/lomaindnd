@@ -10,6 +10,9 @@ h2{
     color: aqua;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+main{
+    margin-top: 1rem;
+}
 .main-header__nav{
     display: flex;
     justify-content: center;
@@ -46,11 +49,12 @@ a{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    border:1px, solid, #531616;
+    
     
 }
 .main-header__item{
     float: left;
+    border: 1px, solid, rgb(102, 255, 0);
 }
 
 .nav-link {
@@ -84,4 +88,10 @@ a{
 
 .nav-link:hover{
     background-color: #111;
+}
+
+.main-header{
+    border-bottom: 1px;
+    border-bottom-color: rgb(136, 212, 85);
+    border-bottom-style: solid;
 }

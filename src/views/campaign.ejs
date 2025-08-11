@@ -6,8 +6,18 @@
     <%- include('./include/nav.ejs') %>
 
     <main>
-        <h1><%= campaign.title %></h1>
-        <img class="campaign__image" src="/images/<%= campaign.imageUrl %>">
-        <h2><%= campaign.description %></h2>
+        <header class="card__header">
+            <h1 class="campaign__title">
+                <%= campaign.title %>
+            </h1>
+        </header>
+        <div class="card__image">
+            <img src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
+        </div>
+        <div class="card__content">
+            <p class="campaign__description">
+                <%= campaign.description %>
+            </p>
+        </div>
     </main>
 <%- include('./include/end.ejs') %>
