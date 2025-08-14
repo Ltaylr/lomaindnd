@@ -2,34 +2,29 @@
      <link rel="stylesheet" href="/css/campaign.css">
 </head>
 
-<body>
+<body class="bg-gray-900">
     <%- include('./include/nav.ejs') %>
 
     <main>
-        <h1>Campaigns</h1>
-        <ul class="grid">
+        
+        <ul class="grid gap-4">
             <% if (campaigns.length > 0) { %>
                 <% for (let campaign of campaigns) { %>
-                <article class="card campaign-item">
-                                <header class="card__header">
-                                    <h1 class="campaign__title">
-                                        <%= campaign.title %>
-                                    </h1>
-                                </header>
-                                <div class="card__image">
-                                    <img src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
-                                </div>
-                                <div class="card__content">
-                                    <p class="campaign__description">
-                                        <%= campaign.description %>
-                                    </p>
-                                </div>
-                                <div class="card__actions">
-                                    <a href="/campaign/<%= campaign._id %>" class="btn"></a>
-                                    <input type="hidden" value="<%= campaign._id %>" name="campaignId">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                </div>
-                            </article>
+                <div>
+                    <a href="/campaign/<%= campaign._id %>" class="block max-w-2xs aspect-square p-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                        <img class="w-7/10 mx-auto" src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
+                        <h1 class="pt-3 pb-1 border-b-1 border-b-gray-300 font-semibold border-transparent text-center text-cyan-400">
+                            <%= campaign.title %>
+                        </h1>
+                        <div class="card__content">
+                            <p class="text-xs pt-0 pb-3 text-center text-cyan-400">
+                                <%= campaign.description %>
+                            </p>
+                        </div>
+                    </a>
+                        <input type="hidden" value="<%= campaign._id %>" name="campaignId">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                </div>
                 <% } %>
             <% } %>
         </ul>
