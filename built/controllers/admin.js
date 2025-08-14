@@ -1,5 +1,7 @@
 "use strict";
 const Campaign = require('../models/CampaignModel');
+const Character = require('../models/Character');
+const path = require('path');
 const { validationResult } = require('express-validator');
 exports.getHome = (req, res, next) => {
     res.render('admin/admin-home', { docTitle: 'Admin', path: '/admin/admin-home' });
@@ -34,14 +36,13 @@ function return422(req, res, errorMessage, title, description, errors) {
 }
 exports.postAddCampaign = (req, res, next) => {
     const title = req.body.title;
-    const image = req.body.image;
+    const image = req.file;
     const description = req.body.description;
     console.log("HERE");
     const errors = validationResult(req);
-    if (!image) {
-        return return422(req, res, 'attached file is not an image', title, description, errors);
-    }
-    const imageUrl = image.path;
+    //console.log(image.path);
+    const imageUrl = (!image) ? 'd20Large.png' : path.basename(image.path);
+    console.log(imageUrl);
     if (!errors.isEmpty()) {
         console.log(errors.array());
         return return422(errors.array()[0].msg);
@@ -159,11 +160,44 @@ exports.getCampaigns = (req, res, next) => {
         return next(error);
     });
 };
+exports.getCharacters = (req, res, next) => {
+    Character.find({})
+        .then(characters => {
+        res.render('admin/characters', {
+            characters: characters,
+            docTitle: 'Admin characters',
+            path: '/admin/characters',
+            csrfToken: req.csrfToken(),
+            isAuthenticated: req.session.isLoggedIn
+        });
+    })
+        .catch(err => {
+        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+    });
+};
 exports.deleteCampaign = (req, res, next) => {
     const campId = req.params.campaignId;
     Campaign.deleteOne({ _id: campId, userId: req.session.user._id })
         .then(() => {
         console.log('DESTROYED campaign');
+        res.status(200).send();
+    })
+        .catch(err => {
+        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+    });
+};
+exports.deleteCharacter = (req, res, next) => {
+    const charId = req.params.charId;
+    console.log(charId);
+    Character.deleteOne({ _id: charId })
+        .then(() => {
+        console.log('DESTROYED Character');
         res.status(200).send();
     })
         .catch(err => {
@@ -188,26 +222,44 @@ exports.getAddCharacter = (req, res, next) => {
 };
 exports.postAddCharacter = (req, res, next) => {
     const name = req.body.name;
-    const image = req.file;
-    const level = req.level;
-    const pdfFile = req.pdfFile;
+    const image = req.files.image;
+    const level = req.body.levels;
+    const pdfFile = req.files.pdfFile;
     const description = req.body.description;
     const errors = validationResult(req);
-    if (!image) {
-        return return422('attached file is not an image');
+    const imageUrl = (!image) ? 'd20Large.png' : path.basename(image[0].path);
+    const pdfUrl = path.basename(pdfFile[0].path);
+    if (!pdfFile) {
+        return res.status(422).render('admin/add-character', {
+            docTitle: 'Add character',
+            path: '/admin/add-character',
+            editing: false,
+            hasError: true,
+            character: {
+                name: name,
+                description: description,
+                level: level
+            },
+            csrfToken: req.csrfToken(),
+            errorMessage: errorMessage,
+            isAuthenticated: req.session.isLoggedIn,
+            validationErrors: errors.array()
+        });
     }
-    const imageUrl = image.path;
+    console.log(imageUrl);
     if (!errors.isEmpty()) {
         console.log(errors.array());
         return return422(errors.array()[0].msg);
     }
     const character = new Character({
         name: name,
-        level: level,
+        level: Number(level),
         isPregen: true,
         description: description,
         imageUrl: imageUrl,
-        pdfFile: pdfFile,
+        hasCharacterSheet: true,
+        isPlayerChar: false,
+        characterSheetUrl: pdfUrl,
         userId: req.session.user
     });
     character

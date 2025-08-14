@@ -36,11 +36,18 @@ module.exports = function (app) {
             }
         }
     };
-    const singleImageUpload = multer({ storage: fileStorage, limits: { fileSize: '10mb' }, fileFilter: fileFilter });
-    app.use(singleImageUpload.single('image'));
-    app.use(express.static('./'));
-    app.use('images', express.static('images'));
-    app.use('../files', express.static(path.join(__dirname, 'files')));
-    app.use(express.static(path.join(__dirname, 'files', 'characters')));
+    //const singleImageUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});
+    //app.use(singleImageUpload.single('image'));
+    app.use((req, res, next) => {
+        console.log(req.path);
+        next();
+    });
+    //console.log(path.join(topPath,'../public/'))
+    app.use(express.static(path.join(topPath, '../public')));
+    //app.use(express.static(path.join(topPath, '../public/images')));
+    //a//pp.use('css', express.static(path.join(topPath, '../public/css')));
+    //app.use('chars', express.static(path.join(topPath, '../public/chars')));
+    //app.use('images', express.static('images'));
+    // app.use(express.static(path.join(__dirname, 'files', 'characters')));
 };
 //# sourceMappingURL=Files.js.map

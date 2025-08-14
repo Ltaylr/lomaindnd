@@ -5,12 +5,14 @@ const authController = require('../controllers/auth');
 const router = express.Router();
 const User = require('../models/User');
 const validateCode = require('../util/checkSignupCode');
-router.get('/login', authController.getLogin);
-router.get('/signup', authController.getSignup);
-router.get('/reset', authController.getReset);
-router.post('/reset', authController.postReset);
+const multer = require('multer');
+const csrfSynchronisedProtection = require('../config/Security');
+router.get('/login', csrfSynchronisedProtection, authController.getLogin);
+router.get('/signup', csrfSynchronisedProtection, authController.getSignup);
+router.get('/reset', csrfSynchronisedProtection, authController.getReset);
+router.post('/reset', csrfSynchronisedProtection, authController.postReset);
 router.get('/reset/:resetToken', authController.getResetWithToken);
-router.post('/reset/:resetToken', authController.postResetPassword);
+router.post('/reset/:resetToken', csrfSynchronisedProtection, authController.postResetPassword);
 router.post('/login', [
     body('email')
         .isEmail()
@@ -22,7 +24,7 @@ router.post('/login', [
             return Promise.reject('Incorrect Email/Password');
         });
     })
-], authController.postLogin);
+], csrfSynchronisedProtection, authController.postLogin);
 router.post('/signup', [
     body('signupCode')
         .custom((value) => {
@@ -56,7 +58,10 @@ router.post('/signup', [
         });
     })
         .normalizeEmail(),
-], authController.postSignup);
-router.post('/logout', authController.postLogout);
+], csrfSynchronisedProtection, authController.postSignup);
+router.post('/logout', (req, res, next) => {
+    console.log("hitting logout route...");
+    next();
+}, csrfSynchronisedProtection, authController.postLogout);
 module.exports = router;
 //# sourceMappingURL=auth.js.map

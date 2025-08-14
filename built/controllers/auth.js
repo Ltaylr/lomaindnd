@@ -1,6 +1,6 @@
 "use strict";
 const User = require('../models/User');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const { validationResult } = require('express-validator');
@@ -260,7 +260,7 @@ exports.postSignup = (req, res, next) => {
         });
     })
         .then(result => {
-        res.redirect('/admin/campaigns');
+        res.redirect('/admin/login');
     })
         .catch(err => {
         console.log(err);
@@ -271,12 +271,16 @@ exports.postSignup = (req, res, next) => {
 };
 exports.postLogout = (req, res, next) => {
     console.log("here");
-    req.session.destroy(err => {
-        console.log(err);
-        console.log(here);
-        res.setHeader('Clear-Site-Data', '"cookies"');
-        //res.status(200).json({ message: 'You are logged out!' });
-        res.redirect('/', { isAuthenticated: false, csrfToken: req.csrfToken() });
+    const sessionId = req.session.id;
+    req.session.destroy((err) => {
+        if (err) {
+            console.log('Error destroying session in store:', err);
+            next(err);
+        }
+        else {
+            console.log('Session destroyed in store');
+        }
+        res.status(200).redirect('/');
     });
 };
 //# sourceMappingURL=auth.js.map
