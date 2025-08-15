@@ -1,0 +1,49 @@
+"use strict";
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const characterSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    level: {
+        type: Number,
+        required: false
+    },
+    imageUrl: {
+        type: String,
+        required: false
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    isPlayerChar: {
+        type: Boolean,
+        required: false
+    },
+    hasCharacterSheet: {
+        type: Boolean,
+        required: false
+    },
+    isPregen: {
+        type: Boolean,
+        required: false
+    },
+    characterSheetUrl: {
+        type: String,
+        required: false
+    },
+    campaignId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Campaign',
+        required: false
+    },
+    locationId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Campaign',
+        required: false
+    }
+});
+module.exports = mongoose.model('Character', characterSchema);
+//# sourceMappingURL=Character.js.map

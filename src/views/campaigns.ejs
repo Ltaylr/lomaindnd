@@ -1,13 +1,8 @@
 <%- include('./include/head.ejs') %>
-     <link rel="stylesheet" href="/css/campaign.css">
-</head>
 
-<body class="bg-gray-900">
     <%- include('./include/nav.ejs') %>
-
-    <main>
-        
-        <ul class="grid gap-4">
+    <main>   
+        <ul class="flex flex-wrap gap-4 justify-center">
             <% if (campaigns.length > 0) { %>
                 <% for (let campaign of campaigns) { %>
                 <div>

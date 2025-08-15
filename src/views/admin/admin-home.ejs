@@ -6,10 +6,16 @@
     <%- include('../include/nav.ejs') %>
 
     <main>
-        <ul>
-            <li><a href="/admin/add-campaign">Add Campaign</a></li>
-            <li><a href="/admin/add-character">Add Character</a></li>
-            <li><a href="/admin/campaigns">Edit Campaign</a></li>
+        <ul class="flex flex-wrap justify-center gap-3">
+            <a class="block bg-gray-800 border-2 border-gray-600 roudned-lg p-2 text-cyan-500 dark:hover:bg-gray-900" href="/admin/add-campaign">
+                Add Campaign 
+            </a>
+            <a class="block bg-gray-800 border-2 border-gray-600 roudned-lg p-2 text-cyan-500 dark:hover:bg-gray-900" href="/admin/add-character">
+                Add Character
+            </a>
+            <a class="block bg-gray-800 border-2 border-gray-600 roudned-lg p-2 text-cyan-500 dark:hover:bg-gray-900" href="/admin/campaigns">
+                Edit Campaign
+            </a>
         </ul>
         
     </main>

@@ -2,34 +2,27 @@
      <link rel="stylesheet" href="/css/cards.css">
 </head>
 
-<body>
+<body class="bg-gray-900">
     <%- include('./include/nav.ejs') %>
 
     <main>
-        <h1>characters</h1>
         <ul class="grid">
             <% if (characters.length > 0) { %>
                 <% for (let character of characters) { %>
-                <article class="card character-item">
-                                <header class="card__header">
-                                    <h1 class="character__name">
+                    <article class="block max-w-3xs aspect-square p-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                            <h1 class="pb-1 border-b-1 border-b-gray-300 font-semibold border-transparent text-center text-cyan-400">
                                         <%= character.name %>
-                                    </h1>
-                                </header>
-                                <div class="card__image">
-                                    <img src="/images/<%= character.imageUrl %>" alt="<%= character.title %>">
-                                </div>
-                                <div class="card__content">
-                                    <p class="character__description">
-                                        Level <%= character.level %> <%= character.description %> 
-                                    </p>
-                                </div>
-                                <div class="card__actions">
-                                    <a target="_blank" href="/chars/<%= character.characterSheetUrl %>" class="btn">Download pdf</a>
-                                    <input type="hidden" value="<%= character._id %>" name="characterId">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                </div>
-                            </article>
+                            </h1>
+                            <img class="pt-3 pb-3 w-7/10 mx-auto" src="/images/<%= character.imageUrl %>" alt="<%= character.title %>">
+                            <p class="text-xs text-center text-cyan-400">
+                                Level <%= character.level %> <%= character.description %> 
+                            </p>
+                            <div class="card__actions font-semibold text-amber-600">
+                                <a target="_blank" href="/chars/<%= character.characterSheetUrl %>" class="btn">Download pdf</a>
+                                <input type="hidden" value="<%= character._id %>" name="characterId">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            </div>
+                    </article>
                 <% } %>
             <% } %>
         </ul>
