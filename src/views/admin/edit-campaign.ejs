@@ -54,7 +54,9 @@
                 <% } %>
 
                 <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button class="text-teal-400 font-semibold bg-gray-900 h-8 rounded-lg border border-gray-500 cursor-pointer" id="submitId" class="btn" type="submit"><% if (editing) { %>Update campaign<% } else { %>Add campaign<% } %></button>
+                <button 
+                class="text-teal-400 font-semibold bg-gray-900 
+                h-8 rounded-lg border border-gray-500 cursor-pointer" id="submitId" class="btn" type="submit"><% if (editing) { %>Update campaign<% } else { %>Add campaign<% } %></button>
                 <% if (editing) { %>
             
                     <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
