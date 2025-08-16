@@ -18,7 +18,7 @@ const characterSchema = new Schema(
         },
         description: {
             type: String,
-            required: true
+            required: false
         },
         isPlayerChar:{
             type: Boolean,

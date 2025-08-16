@@ -1,51 +1,85 @@
 <%- include('../include/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css">
-    <link rel="stylesheet" href="/css/character.css">
-</head>
 
-<body>
    <%- include('../include/nav.ejs') %>
-
-    <main>
+    <main class="flex justify-center">
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
-        <form class="character-form" action="/admin/<% if (editing) { %>edit-character<% } else { %>add-character<% } %>" method="POST" enctype="multipart/form-data">
-            <div class="form-control">
-                <label for="name">Name</label>
+        <form class="bg-gray-800" 
+        action="/admin/<% if (editing) { %>edit-character<% } else { %>add-character<% } %>" method="POST" enctype="multipart/form-data">
+            <div class="bg-gray-800 rounded-lg p-4 border border-amber-500 h-100 flex flex-col gap-3 justify-between">
+                <div>
+                <label class="text-green-400 text-sm font-semibold"  for="name">Name</label>
                 <input 
-                    class="<%= validationErrors.find(e => e.path === 'title') ? 'invalid' : '' %>"
+                    class="<%= validationErrors.find(e => e.path === 'title') ? 
+                    'invalid' : 
+                    'appearance-none max-w-fit bg-amber-100 float-right'%>"
                     type="text" 
                     name="name" 
                     id="name" 
                     value="<% if (editing || hasError) { %><%= character.name %><% } %>">
-            </div>
-            <div class="form-control">
-                <label for="image">Image</label>
-                <input class="image-input" type="file" name="image" id="image" >
-            </div>
-            <div class="form-control">
-                <label for="pdfFile">Character Sheet</label>
-                <input class="pdf-input" type="file" name="pdfFile" id="pdfFile" >
-            </div>
-            <div class="form-control">
-                <label for="level">Level</label>
-                <input class="level-input" type="number" min="1" name="levels" id="levels" max="20">
-            </div>
-            <div class="form-control">
-                <label for="description">Description</label>
-                <textarea 
-                    class="<%= validationErrors.find(e => e.path === 'description') ? 'invalid' : '' %>"
-                    name="description" 
-                    id="description" 
-                    rows="5"><% if (editing || hasError) { %><%= character.description %><% } %></textarea>
-            </div>
-            <% if (editing) { %>
+                </div>
+                <div>
+                    <label class="text-green-400 text-sm font-semibold" for="image">Image</label>
+                    <input
+                        class="block bg-gray-700
+                                rounded-lg font-mono text-center 
+                                text-xs float-right 
+                                file:cursor-pointer
+                                file:text-sm
+                                file:p-1
+                                border border-gray-500
+                                focus:outline-none
+                                dark:text-gray-400
+                                file:border-r file:border-gray-500 file:min-h- hover:file:bg-gray-900"
+                        type="file" name="image" id="image" >
+                </div>
+                <div>
+                    <label class="text-green-400 text-sm font-semibold pr-4 " for="pdfFile">Character Sheet</label>
+                    <input
+                        class="block bg-gray-700
+                                rounded-lg font-mono text-center 
+                                text-xs float-right 
+                                file:cursor-pointer
+                                file:text-sm
+                                file:p-1
+                                border border-gray-500
+                                focus:outline-none
+                                dark:text-gray-400
+                                file:border-r file:border-gray-500 file:min-h- hover:file:bg-gray-900"
+                        type="file" name="pdfFile" id="pdfFile" >
+                </div>
+                <div>
+                    <label class="text-green-400 text-sm font-semibold" for="level">Level</label>
+                    <input class="block bg-gray-700
+                                rounded-lg font-mono text-center 
+                                text-xs float-right 
+                                file:cursor-pointer
+                                file:text-sm
+                                file:p-1
+                                border border-gray-500
+                                focus:outline-none
+                                dark:text-gray-400
+                                min-w-20
+                                file:border-r file:border-gray-500 file:min-h-8 hover:file:bg-gray-900" type="number" min="1" name="levels" id="levels" max="20">
+                </div>
+                <div>
+                    <label class="text-green-400 font-semibold text-sm " for="description">Description</label>
+                    <textarea 
+                        class="<%= validationErrors.find(e => e.path === 'description') ? 'invalid' : 
+                        'appearance-none bg-amber-100 float-right' %>"
+                        name="description" 
+                        id="description" 
+                        rows="5"><% if (editing || hasError) { %><%= character.description %><% } %></textarea>
+                </div>
+                <% if (editing) { %>
                 <input type="hidden" value="<%= character._id %>" name="characterId">
             <% } %>
 
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit"><% if (editing) { %>Update character<% } else { %>Add character<% } %></button>
-        </form>
+            <button class="text-teal-400  text-sm font-semibold bg-gray-900 h-8 rounded-lg border border-gray-500 cursor-pointer" type="submit"><% if (editing) { %>Update character<% } else { %>Add character<% } %></button>
+        
+            </div>
+            </form>
     </main>
 <%- include('../include/end.ejs') %>

@@ -1,88 +1,72 @@
 <%- include('../include/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css"/>
-    <link rel="stylesheet" href="/css/styles.css"/>
-    <link rel="stylesheet" href="/css/admin.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-</head>
-
-<body>
    <%- include('../include/nav.ejs') %>
 
-    <main>
+    <main class="flex justify-center">
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
-        <form id="campaign-form" class="campaign-form" action="/admin/<% if (editing) { %>edit-campaign<% } else { %>add-campaign<% } %>" method="POST" enctype="multipart/form-data">
-            <div class="form-control">
-                <label for="title">Title</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.path === 'title') ? 'invalid' : '' %>"
-                    type="text" 
-                    name="title" 
-                    id="title" 
-                    value="<% if (editing || hasError) { %><%= campaign.title %><% } %>">
-            </div>
-            <div class="form-control">
-                <label for="image">Image</label>
-                <input class="image-input"
-                    type="file" 
-                    name="image" 
-                    id="image" 
-                >
-            </div>
-            <div class="form-control">
-                <label for="description">Description</label>
-                <textarea 
-                    class="<%= validationErrors.find(e => e.path === 'description') ? 'invalid' : '' %>"
-                    name="description" 
-                    id="description" 
-                    rows="5"><% if (editing || hasError) { %><%= campaign.description %><% } %></textarea>
-            </div>
-            <% if (editing) { %>
-                <input id="campId" type="hidden" value="<%= campaign._id %>" name="campaignId">
-            <% } %>
+        <form class=""
+            id="campaign-form" 
+            action="/admin/<% if (editing) { %>edit-campaign<% } else { %>add-campaign<% } %>" 
+            method="POST" enctype="multipart/form-data">
+            <div class="bg-gray-800 rounded-lg p-4 border border-amber-500 h-80 flex flex-col gap-3 justify-between">
+                <div>
+                    <label class="text-green-400 font-semibold" for="title">Title</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.path === 'title') ? 'invalid' :
+                        'appearance-none bg-amber-100 float-right' %>"
+                        type="text" 
+                        name="title" 
+                        id="title" 
+                        value="<% if (editing || hasError) { %><%= campaign.title %><% } %>">
+                </div>
+                <div>
+                    <label class="text-green-400 font-semibold" for="image">Image</label>
+                    <input
+                        class="block bg-gray-700
+                        rounded-lg font-mono text-center 
+                        text-xs float-right 
+                        file:cursor-pointer
+                        file:text-sm
+                        file:p-1
+                        border border-gray-500
+                        focus:outline-none
+                        dark:text-gray-400
+                        file:border-r file:border-gray-500 file:min-h- hover:file:bg-gray-900"
+                        
+                        type="file" 
+                        name="image" 
+                        id="image" 
+                    >
+                </div>
+                <div>
+                    <label class="text-green-400 font-semibold pr-4 " class="mr-3"for="description">Description</label>
+                    <!--"<%= validationErrors.find(e => e.path === 'description') ? 
+                        'invalid' : '' %>"-->
+                    <textarea 
+                        class="appearance-none bg-amber-100 float-right"
+                        name="description" 
+                        id="description" 
+                        rows="5"><% if (editing || hasError) { %><%= campaign.description %><% } %></textarea>
+                </div>
+                <% if (editing) { %>
+                    <input id="campId" type="hidden" value="<%= campaign._id %>" name="campaignId">
+                <% } %>
 
-            <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button id="submitId" class="btn" type="submit"><% if (editing) { %>Update campaign<% } else { %>Add campaign<% } %></button>
+                <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="text-teal-400 font-semibold bg-gray-900 h-8 rounded-lg border border-gray-500 cursor-pointer" id="submitId" class="btn" type="submit"><% if (editing) { %>Update campaign<% } else { %>Add campaign<% } %></button>
+                <% if (editing) { %>
+            
+                    <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button class="text-teal-400 font-semibold bg-gray-900 h-8 rounded-lg border border-gray-500 cursor-pointer" id="del-btn" class="btn" type="button">Delete</button>
+            
+                <% } %>
+            </div>
         </form>
-        <% if (editing) { %>
-            
-            <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button id="del-btn" class="btn" type="button">Delete</button>
-            
-        <% } %>
+        
     </main>
-    <script  nonce="<%= cspNonce %>">
-    //        document.getElementById("submitId").addEventListener("click", function(event){
-    //            event.preventDefault();
-    //            const formData = new FormData(document.getElementById("campaign-form"));
-    //            const title = document.getElementById("title").value;
-    //            const description = document.getElementById("description").value;
-    //            const image = document.getElementById("image").files[0];
-    //            const csrfToken = document.getElementById('csrf').value;
-    //            const campId = "";
-    //            "<% if(editing) { %>"
-    //            campId = document.getElementById("campId").value;
-    //            formData.append('campId', campId);
-    //            "<% } %>"
-    //            
-    //            const data = {
-    //                title: title,
-    //                description: description,
-    //                image: image,
-    //                campId: campId,
-    //                _csrf: csrfToken
-    //            }
-    //            console.log(formData);
-    //            fetch('/admin/<% if (editing) { %>edit-campaign<% } else { %>add-campaign<% } %>',{
-    //                method: 'POST',
-    //                body: formData
-    //            })
-    //            .then(res => {
-    //                    console.log(res);
-    //            });
-//
-    //        })
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script nonce="<%= cspNonce %>">
             "<% if(editing) { %>"
             document.getElementById("del-btn").addEventListener("click", function() {
                 $.ajax({
@@ -104,9 +88,5 @@
 
             )
             "<% } %>"
-
-            
-        
-   
     </script>
 <%- include('../include/end.ejs') %>

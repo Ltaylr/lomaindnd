@@ -5,9 +5,10 @@
         <ul class="flex flex-wrap gap-4 justify-center">
             <% if (campaigns.length > 0) { %>
                 <% for (let campaign of campaigns) { %>
-                <div>
-                    <a href="/campaign/<%= campaign._id %>" class="block max-w-2xs aspect-square p-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                        <img class="w-7/10 mx-auto" src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
+                <div class="block hover:border-2 hover:border-amber-600 min-w-80 max-w-80 aspect-square p-3
+                         bg-white border border-gray-200 rounded-xl shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <a href="/campaign/<%= campaign._id %>">
+                        <img class="w-7/10 mx-auto rounded-2xl border-2 border-cyan-900 hover:border-amber-600" src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
                         <h1 class="pt-3 pb-1 border-b-1 border-b-gray-300 font-semibold border-transparent text-center text-cyan-400">
                             <%= campaign.title %>
                         </h1>
