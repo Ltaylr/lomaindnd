@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.get('/characters', charController.getCharacters);
 
-router.get('/characters/:level', charController.getCharacterSheets);
+//router.get('/characters/:level', charController.getCharacterSheets);
 
-router.get('/characters/:level/:char', charController.getCharacterSheet);
+//router.get('/characters/:level/:char', charController.getCharacterSheet);
 
 module.exports = router;

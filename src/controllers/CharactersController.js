@@ -43,17 +43,6 @@ exports.getCharacter = (req, res, next) => {
       return next(error);
     });
 };
-exports.getCharacterLevelOptions = (req, res, next) => {
-    const levelFolders = fs.readdirSync(path.join(topPath, 'files', 'characters'));
-    res.render('characters', {docTitle: 'Characters', levels: levelFolders});
-}
-
-exports.getCharacterSheets = (req, res, next) => {
-    const level = req.params.level;
-    fs.readdir(path.join(topPath, 'files', 'characters', level),(err, chars) =>{
-        res.render('levels', {docTitle: level, characters: chars, level: level});
-    });
-}
 
 exports.getCharacterSheet = (req, res, next) => {
     const level = req.params.level;
