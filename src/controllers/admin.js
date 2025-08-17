@@ -79,7 +79,7 @@ exports.getEditCampaign = (req, res, next) => {
   }
   console.log(req.params)
   const campaignId = req.params.campaignId;
-  Campaign.findById(campaignId)
+  Campaign.findById({$eq:campaignId})
     .then(campaign => {
       if (!campaign) {
         return res.redirect('/');
@@ -130,7 +130,7 @@ exports.postEditCampaign = (req, res, next) => {
   }
 
   
-  Campaign.findById(campaignId)
+  Campaign.findById({$eq:campaignId})
     .then(campaign => {
       console.log(req);
       if(campaign.userId.toString() !== req.session.user._id.toString())
