@@ -79,7 +79,7 @@ exports.postLogin = (req, res, next) => {
     });
   }
 
-  User.findOne({email: email})
+  User.findOne({email: {$eq:email}})
   .then(userDoc => {
     
     if(!userDoc)
@@ -173,7 +173,7 @@ exports.postReset = (req, res, next) =>
     }
 
     const token = buffer.toString('hex');
-    User.findOne({email: req.body.email})
+    User.findOne({email: {$eq:req.body.email}})
     .then(user => {
       if(!user)
       {
@@ -216,7 +216,7 @@ exports.postResetPassword = (req, res, next) =>
   const confirmNewPass = req.body.confirmNewPassword;
 
   const token = req.params.resetToken;
-  User.findOne({ _id: userId, resetToken: token, resetTokenExpiration: {$gt: Date.now()}})
+  User.findOne({ _id: {$eq:userId}, resetToken: {$eq:token}, resetTokenExpiration: {$gt: Date.now()}})
   .then(userDoc => {
     
     if(!userDoc)
