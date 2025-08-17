@@ -12,14 +12,14 @@
     </div>-->
 <nav aria-label="Global" class="flex justify-center p-4">
     
-    <ul class="flex flex-wrap gap-12">
-            <a class="min-w-12 hover:text-shadow-lg hover: text-shadow-pink-500 text-center text-lg md:text-2xl font-semibold  text-lime-400" href="/">Home</a>
-            <a class="min-w-12 hover:text-shadow-lg hover: text-shadow-pink-500 text-center text-lg md:text-2xl font-semibold text-lime-400" href="/campaigns">Campaigns</a>
-            <a class="min-w-12 hover:text-shadow-lg hover: text-shadow-pink-500 text-center text-lg md:text-2xl font-semibold text-lime-400" href="/characters">Characters</a>
+    <ul class="flex flex-wrap gap-9 md:gap-12">
+            <a class="min-w-8 md:min-w-12 hover:text-shadow-lg hover: text-shadow-pink-500 text-center text-lg md:text-2xl font-semibold  text-lime-400" href="/">Home</a>
+            <a class="min-w-8 md:min-w-12 hover:text-shadow-lg hover: text-shadow-pink-500 text-center text-lg md:text-2xl font-semibold text-lime-400" href="/campaigns">Campaigns</a>
+            <a class="min-w-8 md:min-w-12 hover:text-shadow-lg hover: text-shadow-pink-500 text-center text-lg md:text-2xl font-semibold text-lime-400" href="/characters">Characters</a>
         <% if ( typeof isAuthenticated != 'undefined' && isAuthenticated && typeof csrfToken != 'undefined') { %>
-            <a class="min-w-12 hover:text-shadow-lg hover: text-shadow-pink-500 text-center text-lg md:text-2xl font-semibold text-lime-400" href="/admin/home">Admin</a>
+            <a class="min-w-8 md:min-w-12 hover:text-shadow-lg hover: text-shadow-pink-500 text-center text-lg md:text-2xl font-semibold text-lime-400" href="/admin/home">Admin</a>
             <form class="appearance-none" action="/admin/logout" method="post">
-                <button class="min-w-12 text-center text-lg md:text-2xl hover:text-shadow-lg hover: text-shadow-pink-500 font-semibold text-lime-400" type="submit">Logout</button>
+                <button class="min-w-8 md:min-w-12 text-center text-lg md:text-2xl hover:text-shadow-lg hover: text-shadow-pink-500 font-semibold text-lime-400" type="submit">Logout</button>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             </form>
         <% } %>
