@@ -362,6 +362,9 @@
   .min-w-140 {
     min-width: calc(var(--spacing) * 140);
   }
+  .min-w-auto {
+    min-width: auto;
+  }
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1/2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -792,6 +795,27 @@
   .sm\:w-288\.75 {
     @media (width >= 40rem) {
       width: calc(var(--spacing) * 288.75);
+    }
+  }
+  .md\:max-w-120 {
+    @media (width >= 48rem) {
+      max-width: calc(var(--spacing) * 120);
+    }
+  }
+  .md\:min-w-120 {
+    @media (width >= 48rem) {
+      min-width: calc(var(--spacing) * 120);
+    }
+  }
+  .md\:min-w-140 {
+    @media (width >= 48rem) {
+      min-width: calc(var(--spacing) * 140);
+    }
+  }
+  .md\:text-2xl {
+    @media (width >= 48rem) {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
     }
   }
   .lg\:left-\[calc\(75\%-5rem\)\] {
