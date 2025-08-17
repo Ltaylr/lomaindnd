@@ -7,10 +7,18 @@
     
     <%- include('./include/nav.ejs') %>
     
-    <main class="text-xs font-mono text-center text-teal-300">
-        <p>A website for the weekly dnd game hosted by Lo Main on Main St.</p>
-        <h2>Schedule</h1>
-        <p>Every Sunday starting between 6pm-7pm and ending 10pm-11pm at Lo Main Chattanooga</p>
+    <main class="flex text-center flex-wrap justify-center">
+        <div class="mt-4 text-lg font-mono text-center text-teal-300
+                    block hover:border-2
+                    min-w-140 max-w-80 p-8
+                    bg-white border border-gray-200 
+                    rounded-xl shadow-sm hover:bg-gray-100
+                    dark:bg-gray-800 dark:border-gray-700 
+                    dark:hover:bg-gray-700">
+            <p>A website for the weekly dnd game hosted by Lo Main on Main St.</p>
+            <h1 class="text-3xl pt-12 pb-4 text-amber-300 text-shadow-lg text-shadow-orange-400">Schedule</h1>
+            <p>Every Sunday starting between 6pm-7pm and ending 10pm-11pm at Lo Main</p>
+        </div>
     </main>
     
 <%- include('./include/end.ejs') %>
