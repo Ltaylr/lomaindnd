@@ -8,7 +8,7 @@ const adminController = require('../controllers/admin');
 
 const router = express.Router();
 
-const {body} = require('express-validator');
+const {body, param} = require('express-validator');
 
 const csrfSynchronisedProtection = require('../config/Security');
 
@@ -29,10 +29,8 @@ const fileStorage = multer.diskStorage({
     });
      
     const fileFilter = (req, file, cb) => {
-      console.log(file);
       if(file.fieldname === 'image'){
         if(file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
-          console.log("here");
           cb(null, true);
         }
         else{
@@ -42,7 +40,6 @@ const fileStorage = multer.diskStorage({
       else{
       if(file.fieldname === 'pdfFile')
       {
-        console.log("here2")
         if(file.mimetype === 'application/pdf'){
          cb(null, true);
         }
@@ -106,10 +103,6 @@ router.post(
     .fields([ 
       {name: 'pdfFile', maxCount: 1}, 
       {name:'image', maxCount: 1}]),
-     (req, res, next) => {
-      console.log(req.body);
-      next();
-     } ,
     [
       body('name')
         .isString(),
@@ -126,13 +119,16 @@ router.post(
   );
 
 router.get('/edit-campaign/:campaignId', 
+  [param('campaignId').isString()],
   isAuth,
   csrfSynchronisedProtection, 
   adminController.getEditCampaign);
 
 router.post(
     '/edit-campaign',
+    
     singleImageUpload.single('image'),
+    
     [
       body('title')
         .isString(),
@@ -148,7 +144,8 @@ router.post(
     adminController.postEditCampaign
   );
 
-router.delete('/campaign/:campaignId', 
+router.delete('/campaign/:campaignId',
+  [param('campaignId').isString()], 
   isAuth, 
   csrfSynchronisedProtection, 
   adminController.deleteCampaign);

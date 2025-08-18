@@ -19,7 +19,11 @@ const campaignSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
             required: true
-        }
+        },
+        imageCollection:[{
+            type: String,
+            required: true
+        }]
     }
 )
 

@@ -79,7 +79,12 @@ exports.getEditCampaign = (req, res, next) => {
   }
   console.log(req.params)
   const campaignId = req.params.campaignId;
-  Campaign.findById({$eq:campaignId})
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
+    throw new Error('validation error')
+  }
+  Campaign.findById({$eq:campaignId} )
     .then(campaign => {
       if (!campaign) {
         return res.redirect('/');
@@ -130,9 +135,8 @@ exports.postEditCampaign = (req, res, next) => {
   }
 
   
-  Campaign.findById({$eq:campaignId})
+  Campaign.findById({_id: campaignId})
     .then(campaign => {
-      console.log(req);
       if(campaign.userId.toString() !== req.session.user._id.toString())
       {
         return res.redirect('/');
@@ -177,6 +181,7 @@ exports.getCampaigns = (req, res, next) => {
     });
 };
 
+
 exports.getCharacters = (req, res, next) => {
   
   Character.find({})
@@ -215,7 +220,6 @@ exports.deleteCampaign = (req, res, next) => {
 
 exports.deleteCharacter = (req, res, next) => {
   const charId = req.params.charId;
-  console.log(charId);
   Character.deleteOne({_id: charId})
     .then(() => {
       console.log('DESTROYED Character');
@@ -230,7 +234,6 @@ exports.deleteCharacter = (req, res, next) => {
 };
 
 exports.getAddCharacter = (req, res, next) => {
-  console.log('here');
   res.render('admin/add-character', {
     docTitle: 'Add character',
     path: '/admin/add-character',
@@ -270,8 +273,6 @@ exports.postAddCharacter = (req, res, next) => {
     });
   }
 
-  console.log(imageUrl);
-
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return return422(errors.array()[0].msg);
@@ -301,3 +302,49 @@ exports.postAddCharacter = (req, res, next) => {
       return next(error);
     });
 };
+
+exports.postAddImageToCampaign = (req,res,next) => {
+  const campId = req.body.campaignId;
+  const image = req.files.image;
+  const errors = validationResult(req);
+  const imageUrl = path.basename(image[0].path);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/edit-campaign', {
+      docTitle: 'Edit campaign',
+      path: '/admin/edit-campaign',
+      editing: true,
+      hasError: true,
+      campaign: {
+        title: updatedTitle,
+        description: updatedDesc,
+        _id: campaignId
+      },
+      csrfToken: req.csrfToken(),
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
+
+  
+  Campaign.findById({_id: campId})
+    .then(campaign => {
+      if(campaign.userId.toString() !== req.session.user._id.toString())
+      {
+        return res.redirect('/');
+      }
+
+      campaign.imageCollection.push(imageUrl);
+      return campaign.save().then(result => {
+        console.log('UPDATED campaign!');
+        res.redirect('/admin/campaigns');
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+}
+

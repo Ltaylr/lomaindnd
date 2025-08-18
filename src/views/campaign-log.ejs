@@ -1,0 +1,23 @@
+<%- include('./include/head.ejs') %>
+    <%- include('./include/nav.ejs') %>
+
+    <main class= "h-[100%] flex flex-wrap justify-center">
+       <div class="h-max w-max-300 border-3 bg-gray-800/30  border-gray-300 rounded-lg p-2 mt-6 mr-12 ml-12"> 
+            <header class="text-center pt-4">
+                <h1 class="font-semibold text-2xl md:text-3xl text-cyan-400">
+                    <%= campaign.title %>
+                </h1>
+            </header>
+            <div class="pt-6 flex flex-wrap justify-center" >
+                <img class=" w-[85%] md:w-[60%]" src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
+            </div>
+            <div class="flex flex-wrap justify-center pt-10 pb-10">
+                <div class="border border-gray-500 bg-gray-800 rounded-lg w-[90%] p-3 ps-6">
+                    <p class="text-lg text-cyan-500 font-medium">
+                        <%= campaign.description %>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+<%- include('./include/end.ejs') %>

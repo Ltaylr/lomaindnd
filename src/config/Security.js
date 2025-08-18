@@ -21,6 +21,7 @@ const {
         
         // If the incoming request is a multipart content type
         // then get the token from the body.
+        console.log(req.body['_csrf']);
         if (req.is('multipart') || req.is('application/x-www-form-urlencoded')) {
             return req.body['_csrf'];
         }
