@@ -18,7 +18,12 @@ const journalSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Campaign',
             required: true
-        }
+        },
+        journalEntries:[{
+            type: Schema.Types.ObjectId,
+            ref: 'JournalEntry',
+            required: false
+        }]
 })
 
 module.exports = mongoose.model('Journal', locationSchema)

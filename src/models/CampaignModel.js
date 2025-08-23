@@ -24,7 +24,13 @@ const campaignSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Image',
             required: false
-        }]
+        }],
+        journal:{
+            type: Schema.Types.ObjectId,
+            ref: 'Journal',
+            required: false
+        }
+        
     }
 )
 
