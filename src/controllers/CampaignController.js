@@ -15,8 +15,9 @@ exports.getCampaigns = async (req, res, next) => {
 exports.getCampaign = (req, res, next) => {
   const campId = req.params.campaignId;
   console.log("HERE",campId);
-  Campaign.findById({$eq:campId})
+  Campaign.findById({$eq:campId}).populate('imageCollection')
     .then(campaign => {
+      console.log(campaign)
       res.render('campaign', {
         campaign: campaign,
         docTitle: campaign.title,
