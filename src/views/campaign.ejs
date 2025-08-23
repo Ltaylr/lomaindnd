@@ -25,7 +25,7 @@
                 <% } %>
                 <% for(let image of campaign.imageCollection) { %>
                     <div class="break-inside-avoid-column bg-gray-800 align-middle rounded-lg p-1 md:p-3 border border-gray-500 mt-4">
-                        <a class="rounded-lg href="/images/<%= image.imageUrl %>">
+                        <a class="rounded-lg" href="/images/<%= image.imageUrl %>">
                             <img class="object-cover object-center rounded-lg" src="/images/<%= image.imageUrl %>" alt="<%= image.description %>">
                             <div class="mt-2">
                                 <p class=" text-center text-sm text-cyan-500 font-medium ">
