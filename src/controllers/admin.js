@@ -308,6 +308,7 @@ exports.postAddImageToCampaign = (req,res,next) => {
   const campId = req.params.campaignId;
   console.log(req.body);
   console.log(req.file);
+  console.log(req);
   const desc = req.body.description;
   const image = req.file;
   const errors = validationResult(req);
