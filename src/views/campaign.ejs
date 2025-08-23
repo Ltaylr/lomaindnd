@@ -8,19 +8,28 @@
                     <%= campaign.title %>
                 </h1>
             </header>
-            <div class="pt-6 flex flex-wrap justify-center" >
-                <img class=" w-[85%] md:w-[60%] rounded-lg" src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
-                <% for(let image in campaign.imageCollection) { %>
-                    <img class=" w-[85%] md:w-[60%] rounded-lg" src="/images/<%= image %>" alt="...">
-                <% } %>    
-                
-            </div>
             <div class="flex flex-wrap justify-center pt-10 pb-10 border-t-3 border-gray-700 mt-10 " >
                 <div class="w-[60%] border border-gray-500 bg-gray-800 rounded-lg p-3 ps-6">
                     <p class="text-lg text-cyan-500 font-medium">
                         <%= campaign.description %>
                     </p>
                 </div>
+            </div>
+            <div class="pt-6 flex flex-wrap gap-4 justify-center border-t-3 border-gray-700 mt-10 " >
+                <% if (campaign.imageUrl != 'd20Large.png') { %>
+                    <div class="bg-gray-800 rounded-lg p-3 border border-amber-500">
+                        <a class="rounded-lg align-middle" href="/images/<%= campaign.imageUrl %>">
+                            <img class="rounded-lg" src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
+                        </a>
+                    </div>
+                <% } %>
+                <% for(let image of campaign.imageCollection) { %>
+                    <div class="bg-gray-800 align-middle rounded-lg p-3 border border-amber-500 w-[20%] md:w-[25%]">
+                        <a class="rounded-lg align-middle" href="/images/<%= image.imageUrl %>">
+                            <img class=" rounded-lg" src="/images/<%= image.imageUrl %>" alt="<%= image.description %>">
+                        </a>
+                    </div>
+                <% } %>    
             </div>
         </div>
     </main>

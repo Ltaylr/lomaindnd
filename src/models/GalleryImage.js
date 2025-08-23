@@ -1,0 +1,28 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const GalleryImage = new Schema(
+    {
+        
+        imageUrl:{
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+            required: true
+        },
+        campaignId:{
+            type: Schema.Types.ObjectId,
+            ref: 'Campaign',
+            required: false
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+    }
+)
+
+module.exports = mongoose.model('Image', GalleryImage);

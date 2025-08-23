@@ -21,8 +21,9 @@ const campaignSchema = new Schema(
             required: true
         },
         imageCollection:[{
-            type: String,
-            required: true
+            type: Schema.Types.ObjectId,
+            ref: 'Image',
+            required: false
         }]
     }
 )
