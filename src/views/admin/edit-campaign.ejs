@@ -5,87 +5,161 @@
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
-        <form class=""
-            id="campaign-form" 
-            action="/admin/<% if (editing) { %>edit-campaign<% } else { %>add-campaign<% } %>" 
-            method="POST" enctype="multipart/form-data">
-            <div class="bg-gray-800 rounded-lg p-4 border border-amber-500 h-80 flex flex-col gap-3 justify-between">
-                <div>
-                    <label class="text-green-400 font-semibold" for="title">Title</label>
-                    <input 
-                        class="<%= validationErrors.find(e => e.path === 'title') ? 'invalid' :
-                        'appearance-none bg-amber-100 float-right' %>"
-                        type="text" 
-                        name="title" 
-                        id="title" 
-                        value="<% if (editing || hasError) { %><%= campaign.title %><% } %>">
-                </div>
-                <div>
-                    <label class="text-green-400 font-semibold" for="image">Image</label>
-                    <input
-                        class="block bg-gray-700
-                        rounded-lg font-mono text-center 
-                        text-xs float-right 
-                        file:cursor-pointer
-                        file:text-sm
-                        file:p-1
-                        border border-gray-500
-                        focus:outline-none
-                        dark:text-gray-400
-                        file:border-r file:border-gray-500 file:min-h- hover:file:bg-gray-900"
-                        
-                        type="file" 
-                        name="image" 
-                        id="image" 
-                    >
-                </div>
-                <div>
-                    <label class="text-green-400 font-semibold pr-4 " class="mr-3"for="description">Description</label>
-                    <!--"<%= validationErrors.find(e => e.path === 'description') ? 
-                        'invalid' : '' %>"-->
-                    <textarea 
-                        class="appearance-none bg-amber-100 float-right"
-                        name="description" 
-                        id="description" 
-                        rows="5"><% if (editing || hasError) { %><%= campaign.description %><% } %></textarea>
-                </div>
-                <% if (editing) { %>
-                    <input id="campId" type="hidden" value="<%= campaign._id %>" name="campaignId">
-                <% } %>
+        <div class="bg-gray-800 rounded-lg p-4 border border-amber-500 flex flex-col gap-3 justify-between">
+            <form class="flex flex-col gap-3 justify-between"
+                id="campaign-form" 
+                action="/admin/<% if (editing) { %>edit-campaign<% } else { %>add-campaign<% } %>" 
+                method="POST" enctype="multipart/form-data">
+                
+                    <div>
+                        <label class="text-green-400 font-semibold" for="title">Title</label>
+                        <input 
+                            class="<%= validationErrors.find(e => e.path === 'title') ? 'invalid' :
+                            'appearance-none bg-amber-100 float-right pl-1' %>"
+                            type="text" 
+                            name="title" 
+                            id="title" 
+                            value="<% if (editing || hasError) { %><%= campaign.title %><% } %>">
+                    </div>
+                    <div>
+                        <label class="text-green-400 font-semibold" for="image">Image</label>
+                        <input
+                            class="block bg-gray-700
+                            rounded-lg font-mono text-center 
+                            text-xs float-right 
+                            file:cursor-pointer
+                            file:text-sm
+                            file:p-1
+                            border border-gray-500
+                            focus:outline-none
+                            dark:text-gray-400
+                            file:border-r file:border-gray-500 file:min-h- hover:file:bg-gray-900"
 
-                <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button 
-                class="text-teal-400 font-semibold bg-gray-900 
-                h-8 rounded-lg border border-gray-500 cursor-pointer" id="submitId" class="btn" type="submit"><% if (editing) { %>Update campaign<% } else { %>Add campaign<% } %></button>
-                <% if (editing) { %>
-                    <button class="text-teal-400 font-semibold bg-gray-900 h-8 rounded-lg border border-gray-500 cursor-pointer" id="del-btn" class="btn" type="button">Delete</button>
-                <% } %>
+                            type="file" 
+                            name="image" 
+                            id="image" 
+                        >
+                    </div>
+                    <div>
+                        <label class="text-green-400 font-semibold pr-4 " class="mr-3"for="description">Description</label>
+                        <!--"<%= validationErrors.find(e => e.path === 'description') ? 
+                            'invalid' : '' %>"-->
+                        <textarea 
+                            class="appearance-none bg-amber-100 float-right pl-1"
+                            name="description" 
+                            id="description" 
+                            rows="5"><% if (editing || hasError) { %><%= campaign.description %><% } %></textarea>
+                    </div>
+                    <% if (editing) { %>
+                        <input id="campId" type="hidden" value="<%= campaign._id %>" name="campaignId">
+                    <% } %>
+
+                    <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    
+                    <button 
+                    class="text-teal-400 font-semibold bg-gray-900 
+                    h-8 rounded-lg border border-gray-500 cursor-pointer" id="submitId" class="btn" type="submit"><% if (editing) { %>Update campaign<% } else { %>Add campaign<% } %></button>
+                    
+                    
+                    <% if (editing) { %>
+                        <button class="text-teal-400 font-semibold bg-gray-900 h-8 rounded-lg border border-gray-500 cursor-pointer" id="del-btn" class="btn" type="button">Delete</button>
+                    <% } %>
+                
+                
+                </form>
+                <div class="bg-gray-800 rounded-lg p-3 border border-amber-500 flex flex-col gap-3 justify-between mt-1">
+                    <form class="flex flex-col gap-3 justify-between"
+                    id="imageUploadForm" 
+                    method="POST" enctype="multipart/form-data">
+                        <div>
+                                <label class="text-green-400 font-semibold" for="galleryImage">Image</label>
+                                <input
+                                    class="block bg-gray-700
+                                    rounded-lg font-mono text-center 
+                                    text-xs float-right 
+                                    file:cursor-pointer
+                                    file:text-sm
+                                    file:p-1
+                                    border border-gray-500
+                                    focus:outline-none
+                                    dark:text-gray-400
+                                    file:border-r file:border-gray-500 file:min-h- hover:file:bg-gray-900"
+                                    type="file" 
+                                    name="galleryImage" 
+                                    id="galleryImage" 
+                                >
+                        </div>
+                        <div>
+                        <label class="text-green-400 font-semibold pr-4 " class="mr-3"for="description">Description</label>
+                        <!--"<%= validationErrors.find(e => e.path === 'description') ? 
+                            'invalid' : '' %>"-->
+                        <textarea 
+                            class="appearance-none bg-amber-100 float-right pl-1"
+                            name="description" 
+                            id="description" 
+                            rows="2"></textarea>
+                    </div>
+                        <input id="CSRFToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button 
+                            class="text-teal-400 font-semibold bg-gray-900 
+                            h-8 rounded-lg border border-gray-500 cursor-pointer" id="imageUploadBtn" class="img-btn" type="submit">
+                            Upload Image
+                            </button>
+                        
+
+                    </form>
             </div>
-        </form>
+        </div>
+            
+            
+
         
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script nonce="<%= cspNonce %>">
             "<% if(editing) { %>"
             document.getElementById("del-btn").addEventListener("click", function() {
+                    $.ajax({
+                            url: '/admin/campaign/<% if (editing) { %><%= campaign._id %><% } %>',
+                            type: 'DELETE',
+                            headers:{
+                                'x-csrf-token': '<%= csrfToken %>'
+                            },
+                            success: function(res){
+                                //window.location.href = '/admin/campaigns';
+                                console.log("Success")
+                                location.href = "/admin/campaigns"
+                            },
+                            error: (xhr, status, err) => {
+                                console.log('Error deleting campaign')
+                            }
+                        })
+                    })
+            document.getElementById("imageUploadBtn").addEventListener("click", function(event) {
+                event.preventDefault()
+                const imageForm = document.getElementById("imageUploadForm");
+                var data = new FormData(imageForm);
+                console.log(data);
                 $.ajax({
-                        url: '/admin/campaign/<% if (editing) { %><%= campaign._id %><% } %>',
-                        type: 'DELETE',
+                        url: '/admin/campaign/imageUpload/<% if (editing) { %><%= campaign._id %><% } %>',
+                        type: 'POST',
+                        data: data,
+                        contentType: false,
+                        processData: false,
                         headers:{
                             'x-csrf-token': '<%= csrfToken %>'
                         },
                         success: function(res){
                             //window.location.href = '/admin/campaigns';
-                            console.log("Success")
-                            location.href = "/admin/campaigns"
+                            console.log("Success :D")
+                            //location.href = "/admin/campaigns"
                         },
                         error: (xhr, status, err) => {
-                            console.log('Error deleting campaign')
+                            console.log('Error uploading image :/')
                         }
                     })
-                }
+                })
 
-            )
             "<% } %>"
     </script>
 <%- include('../include/end.ejs') %>

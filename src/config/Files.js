@@ -28,7 +28,7 @@ module.exports = function(app) {
           else{
           if(file.fieldname === 'pdfFile')
           {
-            console.log("here2")
+            
             if(file.mimetype === 'application/pdf'){
              cb(null, true);
             }
@@ -37,21 +37,13 @@ module.exports = function(app) {
         }
         }
     
-    //const singleImageUpload = multer({storage: fileStorage, limits:{ fileSize: '10mb'}, fileFilter: fileFilter});
-    //app.use(singleImageUpload.single('image'));
+
     app.use((req, res, next) => {
       console.log(req.path);
       next();
     })
-    
-    
-    //console.log(path.join(topPath,'../public/'))
     app.use(express.static(path.join(topPath, '../public')));
-    //app.use(express.static(path.join(topPath, '../public/images')));
-    //a//pp.use('css', express.static(path.join(topPath, '../public/css')));
-    //app.use('chars', express.static(path.join(topPath, '../public/chars')));
-    //app.use('images', express.static('images'));
-   // app.use(express.static(path.join(__dirname, 'files', 'characters')));
+
     
 
 }

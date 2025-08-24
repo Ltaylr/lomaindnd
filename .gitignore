@@ -12,6 +12,9 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 **/*.jpg
 **/*.pdf
+**/*.webp
+**/*.gif
+**/*.jpeg
 # Runtime data
 pids
 *.pid

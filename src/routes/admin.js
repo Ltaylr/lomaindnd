@@ -20,6 +20,8 @@ var randomstring = require("randomstring");
 
 const fileStorage = multer.diskStorage({
       destination: (req, file, cb) => {
+        console.log("here");
+        if(file.fieldname ==='galleryImage') cb(null,  path.join(topPath, '../public', 'images'));
         if(file.fieldname ==='image') cb(null,  path.join(topPath, '../public', 'images'));
         if(file.fieldname ==='pdfFile') cb(null, path.join(topPath, '../public', 'chars'));
       },
@@ -29,8 +31,8 @@ const fileStorage = multer.diskStorage({
     });
      
     const fileFilter = (req, file, cb) => {
-      if(file.fieldname === 'image'){
-        if(file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+      if(file.fieldname === 'image' || file.fieldname ==='galleryImage'){
+        if(file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/webp' || file.mimetype === 'image/gif'){
           cb(null, true);
         }
         else{
@@ -154,5 +156,20 @@ router.delete('/character/:charId',
 isAuth, 
 csrfSynchronisedProtection, 
 adminController.deleteCharacter);
+
+router.post(
+    '/campaign/imageUpload/:campaignId',
+    
+    singleImageUpload.single('galleryImage'),
+    
+    [
+      body('description')
+        .isLength({ min: 0, max: 400 })
+        .trim()
+    ],
+    isAuth,
+    csrfSynchronisedProtection,
+    adminController.postAddImageToCampaign
+  );
 
 module.exports = router;

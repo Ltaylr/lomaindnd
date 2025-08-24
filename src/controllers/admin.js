@@ -1,5 +1,6 @@
 const Campaign = require('../models/CampaignModel');
 const Character = require('../models/Character');
+const GalleryImage = require('../models/GalleryImage');
 const path = require('path');
 
 const { validationResult } = require('express-validator');
@@ -304,10 +305,14 @@ exports.postAddCharacter = (req, res, next) => {
 };
 
 exports.postAddImageToCampaign = (req,res,next) => {
-  const campId = req.body.campaignId;
-  const image = req.files.image;
+  const campId = req.params.campaignId;
+  console.log(req.body);
+  console.log(req.file);
+  console.log(req);
+  const desc = req.body.description;
+  const image = req.file;
   const errors = validationResult(req);
-  const imageUrl = path.basename(image[0].path);
+  const imageUrl = path.basename(image.path);
 
   if (!errors.isEmpty()) {
     return res.status(422).render('admin/edit-campaign', {
@@ -333,12 +338,21 @@ exports.postAddImageToCampaign = (req,res,next) => {
       {
         return res.redirect('/');
       }
-
-      campaign.imageCollection.push(imageUrl);
+      const image = new GalleryImage({
+        imageUrl: imageUrl,
+        description: desc,
+        userId: req.session.user,
+        campaignId: campaign
+      })
+      const res = image.save();
+      campaign.imageCollection.push(image);
       return campaign.save().then(result => {
         console.log('UPDATED campaign!');
-        res.redirect('/admin/campaigns');
+        
       });
+    })
+    .then(result => {
+      res.status(200).send();
     })
     .catch(err => {
       console.log(err);
