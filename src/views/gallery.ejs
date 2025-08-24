@@ -1,0 +1,33 @@
+<%- include('./include/head.ejs') %>
+    <%- include('./include/nav.ejs') %>
+
+    <main class= "h-[100%] flex flex-wrap justify-center">
+       <div class="h-[110%] md:h-[100%] w-[90%] md:w-[80%] lg:w-[50%] border-3 bg-gray-800/30  border-gray-300 rounded-lg p-2 md:mt-6 md:ms-12"> 
+            <header class="text-center md:pt-4">
+                <h1 class="font-semibold text-2xl md:text-4xl text-cyan-300 text-shadow-fuchsia-500 text-shadow-lg">
+                    <%= campaign.title %>
+                </h1>
+            </header>
+            <div class="pt-3 columns-2 md:columns-3 justify-center border-t-3 border-gray-700 md:mt-10 " >
+                <% if (campaign.imageUrl != 'd20Large.png') { %>
+                    <div class="bg-gray-800 rounded-lg p-1 md:p-3 border border-gray-500">
+                        <a class=" h-auto max-w-full rounded-lg object-cover object-center" href="/images/<%= campaign.imageUrl %>">
+                            <img class="w-full rounded-lg" src="/images/<%= campaign.imageUrl %>" alt="<%= campaign.title %>">
+                        </a>
+                    </div>
+                <% } %>
+                <% for(let image of campaign.imageCollection) { %>
+                    <div class="break-inside-avoid-column bg-gray-800 align-middle rounded-lg p-1 md:p-3 border border-gray-500 mt-4">
+                        <a class="w-full rounded-lg" href="/images/<%= image.imageUrl %>">
+                            <img class="w-full object-cover object-center rounded-lg" src="/images/<%= image.imageUrl %>" alt="<%= image.description %>">
+                            <div class="mt-2">
+                                <p class=" text-center text-sm text-cyan-500 font-medium ">
+                                   <%= image.description %>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                <% } %>    
+            </div>
+    </main>
+<%- include('./include/end.ejs') %>
