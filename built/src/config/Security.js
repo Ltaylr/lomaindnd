@@ -19,6 +19,8 @@ csrfSynchronisedProtection, // This is the default CSRF protection middleware.
     getTokenFromRequest: (req) => {
         // If the incoming request is a multipart content type
         // then get the token from the body.
+        console.log(req.body['_csrf']);
+        console.log(req.headers['x-csrf-token']);
         if (req.is('multipart') || req.is('application/x-www-form-urlencoded')) {
             return req.body['_csrf'];
         }
@@ -51,14 +53,7 @@ module.exports = function (app, secret) {
         },
     }));
     app.use(express.json());
-    //app.use((req, res, next) =>{ console.log(req.body); next()});
     app.use(cookieParser(secret));
-    //app.use(csrfSynchronisedProtection);
-    //app.use((req, res, next) => {
-    //  res.locals.csrfToken = generateToken(req, res);
-    //  res.header('x-csfr-token', res.locals.csrfToken);
-    //  next();
-    //});
     module.exports = csrfSynchronisedProtection; // This is the default CSRF protection middleware.
 };
 //# sourceMappingURL=Security.js.map

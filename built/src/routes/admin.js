@@ -4,13 +4,16 @@ const express = require('express');
 const isAuth = require('../middleware/is-auth');
 const adminController = require('../controllers/admin');
 const router = express.Router();
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 const csrfSynchronisedProtection = require('../config/Security');
 const multer = require('multer');
 const topPath = require('../util/path');
 var randomstring = require("randomstring");
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
+        console.log("here");
+        if (file.fieldname === 'galleryImage')
+            cb(null, path.join(topPath, '../public', 'images'));
         if (file.fieldname === 'image')
             cb(null, path.join(topPath, '../public', 'images'));
         if (file.fieldname === 'pdfFile')
@@ -21,10 +24,8 @@ const fileStorage = multer.diskStorage({
     }
 });
 const fileFilter = (req, file, cb) => {
-    console.log(file);
-    if (file.fieldname === 'image') {
-        if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-            console.log("here");
+    if (file.fieldname === 'image' || file.fieldname === 'galleryImage') {
+        if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/webp' || file.mimetype === 'image/gif') {
             cb(null, true);
         }
         else {
@@ -33,7 +34,6 @@ const fileFilter = (req, file, cb) => {
     }
     else {
         if (file.fieldname === 'pdfFile') {
-            console.log("here2");
             if (file.mimetype === 'application/pdf') {
                 cb(null, true);
             }
@@ -67,10 +67,7 @@ router.post('/add-character', multiUpload
     .fields([
     { name: 'pdfFile', maxCount: 1 },
     { name: 'image', maxCount: 1 }
-]), (req, res, next) => {
-    console.log(req.body);
-    next();
-}, [
+]), [
     body('name')
         .isString(),
     body('name')
@@ -80,7 +77,7 @@ router.post('/add-character', multiUpload
         .isLength({ min: 0, max: 1200 })
         .trim()
 ], isAuth, csrfSynchronisedProtection, adminController.postAddCharacter);
-router.get('/edit-campaign/:campaignId', isAuth, csrfSynchronisedProtection, adminController.getEditCampaign);
+router.get('/edit-campaign/:campaignId', [param('campaignId').isString()], isAuth, csrfSynchronisedProtection, adminController.getEditCampaign);
 router.post('/edit-campaign', singleImageUpload.single('image'), [
     body('title')
         .isString(),
@@ -91,7 +88,12 @@ router.post('/edit-campaign', singleImageUpload.single('image'), [
         .isLength({ min: 5, max: 400 })
         .trim()
 ], isAuth, csrfSynchronisedProtection, adminController.postEditCampaign);
-router.delete('/campaign/:campaignId', isAuth, csrfSynchronisedProtection, adminController.deleteCampaign);
+router.delete('/campaign/:campaignId', [param('campaignId').isString()], isAuth, csrfSynchronisedProtection, adminController.deleteCampaign);
 router.delete('/character/:charId', isAuth, csrfSynchronisedProtection, adminController.deleteCharacter);
+router.post('/campaign/imageUpload/:campaignId', singleImageUpload.single('galleryImage'), [
+    body('description')
+        .isLength({ min: 0, max: 400 })
+        .trim()
+], isAuth, csrfSynchronisedProtection, adminController.postAddImageToCampaign);
 module.exports = router;
 //# sourceMappingURL=admin.js.map

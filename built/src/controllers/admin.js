@@ -1,6 +1,7 @@
 "use strict";
 const Campaign = require('../models/CampaignModel');
 const Character = require('../models/Character');
+const GalleryImage = require('../models/GalleryImage');
 const path = require('path');
 const { validationResult } = require('express-validator');
 exports.getHome = (req, res, next) => {
@@ -73,7 +74,12 @@ exports.getEditCampaign = (req, res, next) => {
     }
     console.log(req.params);
     const campaignId = req.params.campaignId;
-    Campaign.findById(campaignId)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors.array());
+        throw new Error('validation error');
+    }
+    Campaign.findById({ $eq: campaignId })
         .then(campaign => {
         if (!campaign) {
             return res.redirect('/');
@@ -119,9 +125,8 @@ exports.postEditCampaign = (req, res, next) => {
             validationErrors: errors.array()
         });
     }
-    Campaign.findById(campaignId)
+    Campaign.findById({ _id: campaignId })
         .then(campaign => {
-        console.log(req);
         if (campaign.userId.toString() !== req.session.user._id.toString()) {
             return res.redirect('/');
         }
@@ -194,7 +199,6 @@ exports.deleteCampaign = (req, res, next) => {
 };
 exports.deleteCharacter = (req, res, next) => {
     const charId = req.params.charId;
-    console.log(charId);
     Character.deleteOne({ _id: charId })
         .then(() => {
         console.log('DESTROYED Character');
@@ -208,7 +212,6 @@ exports.deleteCharacter = (req, res, next) => {
     });
 };
 exports.getAddCharacter = (req, res, next) => {
-    console.log('here');
     res.render('admin/add-character', {
         docTitle: 'Add character',
         path: '/admin/add-character',
@@ -246,7 +249,6 @@ exports.postAddCharacter = (req, res, next) => {
             validationErrors: errors.array()
         });
     }
-    console.log(imageUrl);
     if (!errors.isEmpty()) {
         console.log(errors.array());
         return return422(errors.array()[0].msg);
@@ -270,6 +272,58 @@ exports.postAddCharacter = (req, res, next) => {
         res.redirect('/admin/characters');
     })
         .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+    });
+};
+exports.postAddImageToCampaign = (req, res, next) => {
+    const campId = req.params.campaignId;
+    console.log(req.body);
+    console.log(req.file);
+    console.log(req);
+    const desc = req.body.description;
+    const image = req.file;
+    const errors = validationResult(req);
+    const imageUrl = path.basename(image.path);
+    if (!errors.isEmpty()) {
+        return res.status(422).render('admin/edit-campaign', {
+            docTitle: 'Edit campaign',
+            path: '/admin/edit-campaign',
+            editing: true,
+            hasError: true,
+            campaign: {
+                title: updatedTitle,
+                description: updatedDesc,
+                _id: campaignId
+            },
+            csrfToken: req.csrfToken(),
+            errorMessage: errors.array()[0].msg,
+            validationErrors: errors.array()
+        });
+    }
+    Campaign.findById({ _id: campId })
+        .then(campaign => {
+        if (campaign.userId.toString() !== req.session.user._id.toString()) {
+            return res.redirect('/');
+        }
+        const image = new GalleryImage({
+            imageUrl: imageUrl,
+            description: desc,
+            userId: req.session.user,
+            campaignId: campaign
+        });
+        const res = image.save();
+        campaign.imageCollection.push(image);
+        return campaign.save().then(result => {
+            console.log('UPDATED campaign!');
+        });
+    })
+        .then(result => {
+        res.status(200).send();
+    })
+        .catch(err => {
+        console.log(err);
         const error = new Error(err);
         error.httpStatusCode = 500;
         return next(error);

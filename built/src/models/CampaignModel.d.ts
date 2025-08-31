@@ -3,16 +3,22 @@ declare const _exports: mongoose.Model<{
     description: string;
     title: string;
     userId: mongoose.Types.ObjectId;
+    imageCollection: mongoose.Types.ObjectId[];
+    journal?: mongoose.Types.ObjectId | null;
 }, {}, {}, {}, mongoose.Document<unknown, {}, {
     imageUrl: string;
     description: string;
     title: string;
     userId: mongoose.Types.ObjectId;
+    imageCollection: mongoose.Types.ObjectId[];
+    journal?: mongoose.Types.ObjectId | null;
 }, {}> & {
     imageUrl: string;
     description: string;
     title: string;
     userId: mongoose.Types.ObjectId;
+    imageCollection: mongoose.Types.ObjectId[];
+    journal?: mongoose.Types.ObjectId | null;
 } & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -22,16 +28,22 @@ declare const _exports: mongoose.Model<{
     description: string;
     title: string;
     userId: mongoose.Types.ObjectId;
+    imageCollection: mongoose.Types.ObjectId[];
+    journal?: mongoose.Types.ObjectId | null;
 }, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
     imageUrl: string;
     description: string;
     title: string;
     userId: mongoose.Types.ObjectId;
+    imageCollection: mongoose.Types.ObjectId[];
+    journal?: mongoose.Types.ObjectId | null;
 }>, {}> & mongoose.FlatRecord<{
     imageUrl: string;
     description: string;
     title: string;
     userId: mongoose.Types.ObjectId;
+    imageCollection: mongoose.Types.ObjectId[];
+    journal?: mongoose.Types.ObjectId | null;
 }> & {
     _id: mongoose.Types.ObjectId;
 } & {

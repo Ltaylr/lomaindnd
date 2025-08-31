@@ -1,7 +1,5 @@
-const fs = require('fs');
-const topPath = require('../util/path');
-const path = require('path');
 const Campaign = require("../models/CampaignModel");
+const Image = require("../models/GalleryImage");
 
 exports.getCampaigns = async (req, res, next) => {
 
@@ -114,3 +112,49 @@ exports.getLocations = (req, res, next) => {
       return next(error);
     });
 };
+
+exports.sendCampaigns = async (req, res, next) => {
+
+  try{
+    const campaigns = await Campaign.find({});
+    
+    res.json(campaigns);
+  }catch(err){
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+  }
+    
+}
+
+exports.sendCampaign = async (req, res, next) => {
+
+  try{
+    const campId = req.params.campaignId;
+    console.log(campId);
+    const campaign = await Campaign.findById({$eq: campId});
+    res.json(campaign);
+  }catch(err){
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+  }
+    
+}
+
+exports.sendGallery = async (req,res,next) => {
+
+  try{
+      const campId = req.params.campaignId;
+      const images = await Image.find({campaignId: campId});
+      res.json(images);
+  }catch(err)
+  {
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+  }
+}

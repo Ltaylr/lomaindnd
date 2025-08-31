@@ -3,7 +3,7 @@ const charController = require('../controllers/CharactersController');
 const express = require('express');
 const router = express.Router();
 router.get('/characters', charController.getCharacters);
-router.get('/characters/:level', charController.getCharacterSheets);
-router.get('/characters/:level/:char', charController.getCharacterSheet);
+//router.get('/characters/:level', charController.getCharacterSheets);
+//router.get('/characters/:level/:char', charController.getCharacterSheet);
 module.exports = router;
 //# sourceMappingURL=CharacterRoutes.js.map

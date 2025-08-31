@@ -9,4 +9,5 @@ export function deleteCampaign(req: any, res: any, next: any): void;
 export function deleteCharacter(req: any, res: any, next: any): void;
 export function getAddCharacter(req: any, res: any, next: any): void;
 export function postAddCharacter(req: any, res: any, next: any): any;
+export function postAddImageToCampaign(req: any, res: any, next: any): any;
 //# sourceMappingURL=admin.d.ts.map

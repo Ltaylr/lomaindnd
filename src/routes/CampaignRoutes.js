@@ -15,4 +15,25 @@ router.get('/campaign/characters/:campaignId', campaignController.getCharacters)
 
 router.get('/campaign/locations/:campaignId', campaignController.getLocations);
 
+router.get('/campaigns/data',
+    (req, res, next) => {
+        res.setHeader("access-control-allow-origin", '*');
+        next();
+    }
+    ,campaignController.sendCampaigns);
+
+router.get('/campaign/data/:campaignId',
+    (req, res, next) => {
+        res.setHeader("access-control-allow-origin", '*');
+        next();
+    }
+    ,campaignController.sendCampaign);
+
+router.get('/campaign/data/images/:campaignId',
+    (req, res, next) => {
+        res.setHeader("access-control-allow-origin", '*');
+        next();
+    }
+    ,campaignController.sendGallery);
+
 module.exports = router;

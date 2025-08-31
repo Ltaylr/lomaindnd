@@ -64,7 +64,7 @@ exports.postLogin = (req, res, next) => {
             validationErrors: errors.array()
         });
     }
-    User.findOne({ email: email })
+    User.findOne({ email: { $eq: email } })
         .then(userDoc => {
         if (!userDoc) {
             req.flash('error', 'Incorrect Email/Password');
@@ -145,7 +145,7 @@ exports.postReset = (req, res, next) => {
             return res.render('/reset');
         }
         const token = buffer.toString('hex');
-        User.findOne({ email: req.body.email })
+        User.findOne({ email: { $eq: req.body.email } })
             .then(user => {
             if (!user) {
                 req.flash('error', 'No account with email');
@@ -183,7 +183,7 @@ exports.postResetPassword = (req, res, next) => {
     const userId = req.body.userId;
     const confirmNewPass = req.body.confirmNewPassword;
     const token = req.params.resetToken;
-    User.findOne({ _id: userId, resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
+    User.findOne({ _id: { $eq: userId }, resetToken: { $eq: token }, resetTokenExpiration: { $gt: Date.now() } })
         .then(userDoc => {
         if (!userDoc) {
             req.flash('error', 'Invalid username or password');

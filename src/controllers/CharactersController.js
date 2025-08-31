@@ -52,3 +52,19 @@ exports.getCharacterSheet = (req, res, next) => {
     res.setHeader('Content-Dispostion', 'attachment; filename="' + char +'"');
     res.download(path.join(topPath, 'files', 'characters', level, char));
 }
+
+exports.sendCharacters = async (req, res, next) => {
+
+    Character.find({})
+    .then(characters => {
+      
+      res.json(characters);
+    })
+    .catch(err => {
+      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+}
+
